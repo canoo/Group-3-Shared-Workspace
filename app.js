@@ -1,5 +1,7 @@
 const express = require('express');
 const path = require('path');
+const bodyParser = require('body-parser');
+const fs = require('fs');
 
 const app = express();
 
@@ -12,44 +14,41 @@ app.get('/', (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`App and API running on port http://localhost:${PORT}`);
+  console.log(`App and API running on http://localhost:${PORT}`);
 });
 
-
-//api
-const bodyParser = require('body-parser');
-const fs = require('fs');
 // Middleware to parse JSON bodies
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-//get users
-app.get('/api/users', (_, res) => {
-  fs.readFile('database.json', (err, data) => {
-      if (err) {
-          res.status(500).json({ error: err.message });
-          return;
-      }
-      const users = JSON.parse(data);
-      res.json({ data: users });
-  });
-});
-// Adding a new user
-app.post('/api/users', (req, res) => {
-  const newUser = req.body;
 
-  // Read the existing users
+// Get users
+app.get('/api/users', (_, res) => {
   fs.readFile('database.json', (err, data) => {
     if (err) {
       res.status(500).json({ error: err.message });
       return;
     }
-    const users = JSON.parse(data);
 
-    // Add the new user
-    users.push(newUser);
+    const db = JSON.parse(data);
+    res.json({ data: db.users || [] });
+  });
+});
 
-    // Write the updated users back to the file
-    fs.writeFile('database.json', JSON.stringify(users, null, 2), (err) => {
+// Adding a new user
+app.post('/api/users', (req, res) => {
+  const newUser = req.body;
+
+  fs.readFile('database.json', (err, data) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+
+    const db = JSON.parse(data);
+    db.users = db.users || [];
+    db.users.push(newUser);
+
+    fs.writeFile('database.json', JSON.stringify(db, null, 2), (err) => {
       if (err) {
         res.status(500).json({ error: err.message });
         return;
@@ -59,15 +58,16 @@ app.post('/api/users', (req, res) => {
   });
 });
 
-//get properties
+// Get properties
 app.get('/api/properties', (_, res) => {
-  fs.readFile('properties.json', (err, data) => {
-      if (err) {
-          res.status(500).json({ error: err.message });
-          return;
-      }
-      const properties = JSON.parse(data);
-      res.json({ data: properties });
+  fs.readFile('database.json', (err, data) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+
+    const db = JSON.parse(data);
+    res.json({ data: db.properties || [] });
   });
 });
 
@@ -75,19 +75,17 @@ app.get('/api/properties', (_, res) => {
 app.post('/api/properties', (req, res) => {
   const newProperty = req.body;
 
-  // Read the existing properties
-  fs.readFile('properties.json', (err, data) => {
+  fs.readFile('database.json', (err, data) => {
     if (err) {
       res.status(500).json({ error: err.message });
       return;
     }
-    const properties = JSON.parse(data);
 
-    // Add the new property
-    properties.push(newProperty);
+    const db = JSON.parse(data);
+    db.properties = db.properties || [];
+    db.properties.push(newProperty);
 
-    // Write the updated properties back to the file
-    fs.writeFile('properties.json', JSON.stringify(properties, null, 2), (err) => {
+    fs.writeFile('database.json', JSON.stringify(db, null, 2), (err) => {
       if (err) {
         res.status(500).json({ error: err.message });
         return;
