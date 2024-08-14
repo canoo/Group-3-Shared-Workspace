@@ -4,7 +4,7 @@
   "description": "# Running Application ```bash npm start ``` # In dev mode ```bash npm run dev ```",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
+    "start" : "concurrently \"nodemon app.js\" \"node api.js\"",
     "dev": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "concurrently": "^8.2.2",
     "express": "^4.19.2"
   },
   "devDependencies": {
