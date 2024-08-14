@@ -1,0 +1,32 @@
+{
+    "users": [
+        {
+            "username": "admin",
+            "password": "password",
+            "email": "admin@mybvc.ca",
+            "role": "owner",
+            "fullName": "Admin User",
+            "phone": "403-123-4567" 
+        }
+    ],
+    "properties": [
+        {
+            "address": "1234 Elm St",
+            "neighborhood": "Downtown",
+            "parking": true,
+            "transit": true,
+            "workspace": [
+                {
+                    "type": "private office",
+                    "price": 1000,
+                    "availability": true,
+                    "availabilityDate": "2020-01-01",
+                    "leaseTerm": 12,
+                    "sqft": 1000,
+                    "seats": 10,
+                    "smoking": false
+                        }
+                        ]
+        }
+    ]
+}
