@@ -9,18 +9,9 @@
 ```bash
 npm start
 ```
-## In dev mode
+### In dev mode
 ```bash
 npm run dev
 ```
 
 
-
-## Running Application
-```bash
-npm start
-```
-## In dev mode
-```bash
-npm run dev
-```
