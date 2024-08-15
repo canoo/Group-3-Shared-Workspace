@@ -4,22 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Workspace</title>
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
     <nav>
         <ul>            
-            <a href="contactus.html">Contact us</a>                 
+            <li><a href="contactus.html">Contact us</a></li>                 
         </ul>
     </nav>
-    <h1>Shared Workspaces</h1>
-    <img id="img-1" src="img1.jpg" alt= "img1"><header>
-    
-    <div class="topnav">
-        <a class="active" href="#home">Home</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
+    <h1>Workspaces</h1>
+    <header>
+        <img id="img-1" src="img1.jpg" alt= "img1">
+    <header>    
+    <div class="topnav">        
         <input type="text" placeholder="Search..">
       </div>
-</header>
+      <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form submission
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Example logic for validating login credentials
+            if (username === 'admin' && password === 'password') {
+                alert('Login successful');
+                // Redirect to another page or perform other actions
+            } else {
+                document.getElementById('error-message').style.display = 'block';
+            }
+        });
+    </script>
 </body>
 </html>
