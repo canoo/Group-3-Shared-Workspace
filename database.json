@@ -15,6 +15,14 @@
       "role": "admin",
       "phone": "1234567890",
       "fullName": "test test"
+    },
+    {
+      "username": "231",
+      "password": "qe12",
+      "email": "1213@a.com",
+      "role": "admin",
+      "phone": "12",
+      "fullName": "134"
     }
   ],
   "properties": [
@@ -35,6 +43,7 @@
           "smoking": false
         }
       ]
-    }
+    },
+    {}
   ]
 }
