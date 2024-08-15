@@ -11,12 +11,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- Your content goes here -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shared Workspace</title>
 </head>
 <body>
     <h1>Shared Workspaces</h1>
+    <img id="img-1" src="img1.jpg" alt= "img1">
 
     <div>
         <button id="loginButton" onclick="showLoginForm()">Login</button>
@@ -54,6 +54,9 @@
             <button type="submit">Sign Up</button>
         </form>
     </div>
+    <footer>
+        <p>&copy; Bow Valley College <span id="current-year"></span></p>
+    </footer>   
 
     <script>
         //hiding and showing login and signup forms
@@ -135,6 +138,7 @@
             //.then(response => response.json())
             .then(data => {
                 console.log('Success:',data);
+                window.location.href = "home.html"
 
             })
             .catch((error) => {
