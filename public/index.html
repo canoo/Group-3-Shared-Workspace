@@ -67,6 +67,7 @@
     </div>
 
     <script>
+        //login and signup form
         function showLoginForm() {
             document.getElementById("loginForm").style.display = "block";
             document.getElementById("signupForm").style.display = "none";
@@ -76,7 +77,7 @@
             document.getElementById("loginForm").style.display = "none";
             document.getElementById("signupForm").style.display = "block";
         }
-
+//fetching data from the form
         (function(){
             document.getElementById("signupForm").addEventListener("submit", function(event){
             event.preventDefault();
