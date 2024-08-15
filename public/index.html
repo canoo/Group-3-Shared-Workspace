@@ -7,15 +7,6 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>Shared Workspaces</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="property.html">Properties</a></li>
-            </ul>
-        </nav>
-    </header>
 
     <h1>Shared Workspaces</h1>
     <img id="img-1" src="img1.jpg" alt="img1">
@@ -48,7 +39,7 @@
             <label for="role">Role:</label>
             <select id="role">
                 <option value="owner">Owner</option>
-                <option value="user">Co-owner</option>
+                <option value="co-owner">Co-owner</option>
             </select><br>
             <label for="phone">Phone:</label>
             <input type="tel" id="phone" required><br>
@@ -120,7 +111,11 @@
                 const user = data.data.find(user => user.username === username && user.password === password);
 
                 if (user) {
-                    window.location.href = "home.html"; // Redirect to home.html on successful login
+                    if (user.role === "owner") {
+                        window.location.href = "property.html"; // Redirect to property.html for owners
+                    } else if (user.role === "co-owner") {
+                        window.location.href = "home.html"; // Redirect to home.html for co-owners
+                    }
                 } else {
                     alert('Invalid username or password');
                 }
