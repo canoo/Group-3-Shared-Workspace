@@ -23,6 +23,18 @@
       "role": "admin",
       "phone": "test",
       "fullName": "test test"
+    },
+    {
+      "username": "admin",
+      "password": "password"
+    },
+    {
+      "username": "admin",
+      "password": "password"
+    },
+    {
+      "username": "admin",
+      "password": "password"
     }
   ],
   "properties": [
