@@ -13,8 +13,28 @@
       "password": "test",
       "email": "test@test.com",
       "role": "admin",
-      "phone": "1234567890",
+      "phone": "test",
       "fullName": "test test"
+    },
+    {
+      "username": "test",
+      "password": "test",
+      "email": "test@test.com",
+      "role": "admin",
+      "phone": "test",
+      "fullName": "test test"
+    },
+    {
+      "username": "admin",
+      "password": "password"
+    },
+    {
+      "username": "admin",
+      "password": "password"
+    },
+    {
+      "username": "admin",
+      "password": "password"
     }
   ],
   "properties": [

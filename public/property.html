@@ -4,9 +4,9 @@
 @Course Code: SODV1201
 @class: Software Development Diploma program.
 @author: Erika Ortiz, Emiliano Martinez, Paola Lampe Tinoco, Ashpreet Kaur   
-@reference: 
+@reference:
 -->
-
+ 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,12 +26,12 @@
             </ul>
         </nav>
     </header>
-
+ 
     <div class="container">
         <h2>Book List</h2>
         <ul id="book-list"></ul>
     </div>
-
+ 
     <div class="container">
         <h1>Library</h1>
         <form id="add-form">
@@ -59,7 +59,7 @@
       <script>
         document.getElementById('add-form').onsubmit = async (event) => {
             event.preventDefault();
-
+ 
             const newBook = {
                 address: document.getElementById('address').value,
                 neighborhood: document.getElementById('neighborhood').value,
@@ -75,14 +75,14 @@
                 seats: parseInt(document.getElementById('seats').value, 10),  // Convert to integer
                 smoking: document.getElementById('smoking').checked  // Convert to boolean
             };
-
+ 
             try {
                 const response = await fetch('/add-book', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(newBook)
                 });
-
+ 
                 if (response.ok) {
                     alert('Property added successfully.');
                     window.location.href = '/property.html';  // Redirect after adding
@@ -94,7 +94,7 @@
                 alert('Error adding property.');
             }
         };
-
+ 
         async function fetchBooks() {
     const response = await fetch('/books');
     const books = await response.json();
@@ -111,12 +111,12 @@
         addressLink.style.display = 'block'; // Opcional, para que cada dirección esté en una nueva línea
         
         listItem.appendChild(addressLink);
-
+ 
       
         bookList.appendChild(listItem);
     });
 }
-
+ 
 document.addEventListener('DOMContentLoaded', fetchBooks);
     </script>
     

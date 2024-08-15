@@ -4,24 +4,16 @@ const bodyParser = require('body-parser');
 const fs = require('fs');
 
 const app = express();
-
-// Serve static files from the "public" directory
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`App and API running on http://localhost:${PORT}`);
-});
 
 // Middleware to parse JSON bodies
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Get users
+// Serve static files from the "public" directory
+app.use(express.static(path.join(__dirname, 'public')));
+
+// API Routes
 app.get('/api/users', (_, res) => {
   fs.readFile('database.json', (err, data) => {
     if (err) {
@@ -34,7 +26,6 @@ app.get('/api/users', (_, res) => {
   });
 });
 
-// Adding a new user
 app.post('/api/users', (req, res) => {
   const newUser = req.body;
 
@@ -58,7 +49,6 @@ app.post('/api/users', (req, res) => {
   });
 });
 
-// Get properties
 app.get('/api/properties', (_, res) => {
   fs.readFile('database.json', (err, data) => {
     if (err) {
@@ -71,7 +61,6 @@ app.get('/api/properties', (_, res) => {
   });
 });
 
-// Adding a new property
 app.post('/api/properties', (req, res) => {
   const newProperty = req.body;
 
@@ -94,4 +83,67 @@ app.post('/api/properties', (req, res) => {
     });
   });
 });
-//hello
+
+// Property Routes
+let books = [];
+
+const loadBooks = () => {
+  if (fs.existsSync('books.json')) {
+    const data = fs.readFileSync('books.json');
+    books = JSON.parse(data);
+  }
+};
+
+const saveBook = () => {
+  fs.writeFileSync('books.json', JSON.stringify(books, null, 2));
+};
+
+loadBooks();
+
+app.get('/books', (req, res) => {
+  res.json(books);
+});
+
+app.post('/add-book', (req, res) => {
+  const newBook = req.body;
+  books.push(newBook);
+  saveBook();
+  res.redirect('/');
+});
+
+app.delete('/delete-book/:index', (req, res) => {
+  const { index } = req.params;
+  if (index >= 0 && index < books.length) {
+    books.splice(index, 1);
+    saveBook();
+    res.status(200).send("Book deleted!");
+  } else {
+    res.status(404).send('Book not found');
+  }
+});
+
+app.put('/update-book/:index', (req, res) => {
+  const index = parseInt(req.params.index, 10);
+  const updatedBook = req.body;
+
+  if (index >= 0 && index < books.length) {
+    books[index] = updatedBook;
+    saveBook();
+    res.status(200).send('Book updated successfully');
+  } else {
+    res.status(404).send('Book not found');
+  }
+});
+
+// Serve HTML files
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+app.get('/detailProperty.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'detailProperty.html'));
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});
