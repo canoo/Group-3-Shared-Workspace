@@ -7,33 +7,40 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <header id="A">
     <nav>
         <ul>            
-            <li><a href="contactus.html">Contact us</a></li>                 
+            <li><a href="contactus.html">Contact us</a></li>
+            <li><button onclick="logout()">Logout</button></li>                
         </ul>
     </nav>
-    <h1>Workspaces</h1>
-    <header>
-        <img id="img-1" src="img1.jpg" alt= "img1">
-    <header>    
+    </header>   
+    <h1>Workspaces</h1>    
+        <img id="img-1" src="img1.jpg" alt= "img1">      
     <div class="topnav">        
         <input type="text" placeholder="Search..">
       </div>
+    <footer>
+        <p>&copy; Bow Valley College <span id="current-year"></span></p>
+    </footer>   
       <script>
         document.getElementById('loginForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent form submission
+            event.preventDefault(); 
 
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
 
-            // Example logic for validating login credentials
             if (username === 'admin' && password === 'password') {
                 alert('Login successful');
-                // Redirect to another page or perform other actions
             } else {
                 document.getElementById('error-message').style.display = 'block';
             }
         });
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userInfo');
+            window.location.href = 'index.html';
+        }
     </script>
 </body>
 </html>

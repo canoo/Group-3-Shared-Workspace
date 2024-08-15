@@ -55,6 +55,9 @@
     
         
       </div>
+      <footer>
+        <p>&copy; Bow Valley College <span id="current-year"></span></p>
+    </footer> 
     
       <script>
         document.getElementById('add-form').onsubmit = async (event) => {
@@ -114,10 +117,12 @@
  
       
         bookList.appendChild(listItem);
-    });
-}
- 
-document.addEventListener('DOMContentLoaded', fetchBooks);
+        });
+    }
+    
+    document.addEventListener('DOMContentLoaded', fetchBooks);
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+
     </script>
     
     </body>
