@@ -1,12 +1,3 @@
-<!--
-@group: 3
-@name: Shared Worspace
-@Course Code: SODV1201
-@class: Software Development Diploma program.
-@author: Erika Ortiz, Emiliano Martinez, Paola Lampe Tinoco, Ashpreet Kaur   
-@reference: 
--->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,50 +20,53 @@
 
     <h1>Shared Workspaces</h1>
     <img id="img-1" src="C:\Users\16043\New folder (2)\New folder\Group-3-Shared-Workspace\img1.jpg" alt= "img1">
+    <img id="img-1" src="img1.jpg" alt="img1">
 
     <div>
         
         <button id="loginButton" onclick="showLoginForm()">Login</button>
         <button id="signupButton" onclick="showSignupForm()">Sign Up</button>
     </div>
+
     <div id="loginForm" style="display: none;">
         <h2>Login</h2>
-        <form action="../api/users" method="post"></form>
-            <label for="username">Username:</label>
-            <input type="text" name="username" id="username" required><br>
-            <label for="password">Password:</label>
-            <input type="password" name="password" id="password" required><br>
+        <form id="loginFormElement">
+            <label for="loginUsername">Username:</label>
+            <input type="text" id="loginUsername" required><br>
+            <label for="loginPassword">Password:</label>
+            <input type="password" id="loginPassword" required><br>
             <button type="submit">Login</button>
         </form>
     </div>
 
     <div id="signupForm" style="display: none;">
         <h2>Sign Up</h2>
-        <form action="../api/users" method="post">
-            <label for="username">Username:</label>
-            <input type="text" name="username" id="username" required><br>
-            <label for="password">Password:</label>
-            <input type="password" name="password" id="password" required><br>
+        <form id="signupFormElement">
+            <label for="signupUsername">Username:</label>
+            <input type="text" id="signupUsername" required><br>
+            <label for="signupPassword">Password:</label>
+            <input type="password" id="signupPassword" required><br>
             <label for="email">Email:</label>
-            <input type="email" name="email" id="email" required><br>
+            <input type="email" id="email" required><br>
             <label for="role">Role:</label>
-            <select name="role" id="role">
-                <option value="admin">Owner</option>
+            <select id="role">
+                <option value="owner">Owner</option>
                 <option value="user">Co-owner</option>
             </select><br>
             <label for="phone">Phone:</label>
-            <input type="tel" name="phone" id="phone" required><br>
+            <input type="tel" id="phone" required><br>
             <label for="fullName">Full Name:</label>
-            <input type="text" name="fullName" id="fullName" required><br>
+            <input type="text" id="fullName" required><br>
             <button type="submit">Sign Up</button>
         </form>
     </div>
+
     <footer>
         <p>&copy; Bow Valley College <span id="current-year"></span></p>
     </footer>   
 
     <script>
-        //login and signup form
+        // Show and hide forms
         function showLoginForm() {
             document.getElementById("loginForm").style.display = "block";
             document.getElementById("signupForm").style.display = "none";
@@ -82,19 +76,20 @@
             document.getElementById("loginForm").style.display = "none";
             document.getElementById("signupForm").style.display = "block";
         }
-//fetching data from the form
-        (function(){
-            document.getElementById("signupForm").addEventListener("submit", function(event){
-            event.preventDefault();
-            
-            const username = document.getElementById("username").value;
-            const password = document.getElementById("password").value;
 
+        // Handle signup form submission
+        document.getElementById("signupFormElement").addEventListener("submit", function(event) {
+            event.preventDefault();
 
             const user = {
-                username: username,
-                password: password
+                username: document.getElementById("signupUsername").value,
+                password: document.getElementById("signupPassword").value,
+                email: document.getElementById("email").value,
+                role: document.getElementById("role").value,
+                phone: document.getElementById("phone").value,
+                fullName: document.getElementById("fullName").value
             };
+
             fetch("../api/users", {
                 method: "POST",
                 headers: {
@@ -102,64 +97,42 @@
                 },
                 body: JSON.stringify(user)
             })
-
-            //@ignore 
-            //for debugging purposes
-            //.then(response => response.json())
+            .then(response => response.json())
             .then(data => {
-                console.log('Success:',data);
-
+                console.log('Success:', data);
+                alert('Signup successful! You can now log in.');
+                showLoginForm(); // Show login form after signup
             })
             .catch((error) => {
                 console.error('Error:', error);
-                alert('An error occurred. Please try again');
-            });
-
-
-            });
-            document.getElementById("loginForm").addEventListener("submit", function(event){
-            event.preventDefault();
-
-            const username = document.getElementById("username").value;
-            const password = document.getElementById("password").value;
-            const email = document.getElementById("email").value;
-            const role = document.getElementById("role").value;
-            const phone = document.getElementById("phone").value;
-            const fullName = document.getElementById("fullName").value;
-
-
-            const user = {
-                username: username,
-                password: password,
-                email: email,
-                role: role,
-                phone: phone,
-                fullName: fullName
-            };
-            fetch("../api/users", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(user)
-            })
-
-            //@ignore 
-            //for debugging purposes
-            //.then(response => response.json())
-            .then(data => {
-                console.log('Success:',data);
-                window.location.href = "home.html"
-
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                alert('An error occurred. Please try again');
+                alert('An error occurred. Please try again.');
             });
         });
+
+        // Handle login form submission
+        document.getElementById("loginFormElement").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const username = document.getElementById("loginUsername").value;
+            const password = document.getElementById("loginPassword").value;
+
+            // Check credentials
+            fetch("../api/users")
+            .then(response => response.json())
+            .then(data => {
+                const user = data.data.find(user => user.username === username && user.password === password);
+
+                if (user) {
+                    window.location.href = "home.html"; // Redirect to home.html on successful login
+                } else {
+                    alert('Invalid username or password');
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            });
         });
     </script>
-    
- 
 </body>
 </html>

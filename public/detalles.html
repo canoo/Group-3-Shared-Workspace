@@ -1,3 +1,4 @@
+[11:20 AM] Paola Lampe Tinoco
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,21 +24,21 @@
         <button id="edit-button">Edit Property</button>
         <button id="delete-button">Delete Property</button>
     </div>
-
+ 
     <script>
         // Obtener el índice de la propiedad desde la URL
         function getQueryParam(param) {
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(param);
         }
-
+ 
         async function fetchPropertyDetails() {
             const index = getQueryParam('index');  // Obtener el índice de la URL
             if (index === null) {
                 document.getElementById('property-details').innerHTML = 'No property selected.';
                 return;
             }
-
+ 
             try {
                 const response = await fetch(`/books/${index}`);
                 if (response.ok) {
@@ -51,11 +52,11 @@
                 document.getElementById('property-details').innerHTML = 'Error loading property details.';
             }
         }
-
+ 
         // Mostrar los detalles de la propiedad
         function displayPropertyDetails(book, index) {
             const detailsContainer = document.getElementById('property-details');
-
+ 
             detailsContainer.innerHTML = `
                 <p><strong>Address:</strong> ${book.address}</p>
                 <p><strong>Neighborhood:</strong> ${book.neighborhood}</p>
@@ -71,20 +72,20 @@
                 <p><strong>Seats:</strong> ${book.seats}</p>
                 <p><strong>Smoking:</strong> ${book.smoking ? 'Yes' : 'No'}</p>
             `;
-
+ 
             // Asociar el botón de borrar con la función deleteBook
             const deleteButton = document.getElementById('delete-button');
             deleteButton.onclick = () => {
                 deleteBook(index);
             };
-
+ 
             // Asociar el botón de editar con la función editProperty
             const editButton = document.getElementById('edit-button');
             editButton.onclick = () => {
                 window.location.href = `/editProperty.html?index=${index}`;
             };
         }
-
+ 
         // Función para borrar la propiedad
         async function deleteBook(index) {
             const response = await fetch(`/delete-book/${index}`, { method: 'DELETE' });
@@ -95,8 +96,10 @@
                 alert("Failed to delete the property.");
             }
         }
-
+ 
         document.addEventListener('DOMContentLoaded', fetchPropertyDetails);
     </script>
 </body>
 </html>
+ 
+ 
