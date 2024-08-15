@@ -7,14 +7,6 @@
       "role": "owner",
       "fullName": "Admin User",
       "phone": "403-123-4567"
-    },
-    {
-      "username": "test",
-      "password": "test",
-      "email": "test@test.com",
-      "role": "admin",
-      "phone": "1234567890",
-      "fullName": "test test"
     }
   ],
   "properties": [

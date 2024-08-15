@@ -11,13 +11,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- Your content goes here -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="style.css" rel="stylesheet">
     <title>Shared Workspace</title>
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
+    <header>
+        <h1>Introduction to Web Programming</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="property.html">Properties</a></li>
+            </ul>
+        </nav>
+    </header>
+
     <h1>Shared Workspaces</h1>
+    <img id="img-1" src="img1.jpg" alt= "img1">
 
     <div>
         
@@ -56,9 +67,12 @@
             <button type="submit">Sign Up</button>
         </form>
     </div>
+    <footer>
+        <p>&copy; Bow Valley College <span id="current-year"></span></p>
+    </footer>   
 
     <script>
-        //hiding and showing login and signup forms
+        //login and signup form
         function showLoginForm() {
             document.getElementById("loginForm").style.display = "block";
             document.getElementById("signupForm").style.display = "none";
@@ -68,7 +82,7 @@
             document.getElementById("loginForm").style.display = "none";
             document.getElementById("signupForm").style.display = "block";
         }
-//fetching data from the form and sending it to the db
+//fetching data from the form
         (function(){
             document.getElementById("signupForm").addEventListener("submit", function(event){
             event.preventDefault();
@@ -103,8 +117,6 @@
 
 
             });
-
-            
             document.getElementById("loginForm").addEventListener("submit", function(event){
             event.preventDefault();
 
@@ -137,6 +149,7 @@
             //.then(response => response.json())
             .then(data => {
                 console.log('Success:',data);
+                window.location.href = "home.html"
 
             })
             .catch((error) => {
@@ -147,6 +160,6 @@
         });
     </script>
     
-    <script src="script.js"></script>
+ 
 </body>
 </html>

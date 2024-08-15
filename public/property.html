@@ -1,0 +1,143 @@
+<!--
+@group: 3
+@name: Shared Worspace
+@Course Code: SODV1201
+@class: Software Development Diploma program.
+@author: Erika Ortiz, Emiliano Martinez, Paola Lampe Tinoco, Ashpreet Kaur   
+@reference: 
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Your content goes here -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shared Workspace</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Introduction to Web Programming</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="property.html">Properties</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>Book List</h2>
+        <ul id="book-list"></ul>
+    </div>
+
+    <div class="container">
+        
+        <div id="propertyForm">
+        <h1>Library</h1>
+        <form action="../api/properties" method="post" >
+            <input type="text" id="address" placeholder="Address" required>
+            <input type="text" id="neighborhood" placeholder="Neighborhood" required>
+            <input type="text" id="parking" placeholder="Parking" required>
+            <input type="text" id="transit" placeholder="Transit" required>
+            <input type="text" id="workspace" placeholder="Workspace" required>
+            <input type="text" id="type" placeholder="Type" required>
+            <input type="number" id="price" placeholder="Price" required>
+            <input type="text" id="availability" placeholder="Availability" required>
+            <input type="date" id="availabilityDate" placeholder="Availability Date" required>
+            <input type="text" id="leaseTerm" placeholder="Lease Term" required>
+            <input type="number" id="sqft" placeholder="Sqft" required>
+            <input type="number" id="seats" placeholder="Seats" required>
+            <input type="checkbox" id="smoking"> Smoking Allowed
+            <button type="submit">Add Property</button>
+        </form>
+    </div>
+        <a href = "/detailProperty.html">View Books</a>
+    
+        
+      </div>
+    
+      <script>
+
+(function() {
+        document.getElementById('propertyForm').addEventListener("submit",function(event){
+            event.preventDefault();
+
+            
+            const address = document.getElementById('address').value;
+            const neighborhood = document.getElementById('neighborhood').value;
+            const parking = document.getElementById('parking').value;
+            const transit = document.getElementById('transit').value;
+            const workspace = document.getElementById('workspace').value;
+            const type = document.getElementById('type').value;
+            const price = parseFloat(document.getElementById('price').value);  // Convert to number
+            const availability = document.getElementById('availability').value;
+            const availabilityDate = document.getElementById('availabilityDate').value;
+            const leaseTerm = document.getElementById('leaseTerm').value;
+            const sqft = parseFloat(document.getElementById('sqft').value);  // Convert to number
+            const seats = parseInt(document.getElementById('seats').value, 10);  // Convert to integer
+            const smoking = document.getElementById('smoking').checked;  // Convert to boolean
+            
+            const property={
+                address: address,
+                neighborhood: neighborhood,
+                parking: parking,
+                transit: transit,
+                workspace: workspace,
+                type: type,
+                price: price,
+                availability: availability,
+                availabilityDate: availabilityDate,
+                leaseTerm: leaseTerm,
+                sqft: sqft,
+                seats: seats,
+                smoking: smoking
+            }
+
+            fetch("../api/properties", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(property)
+            })
+            .then(response => response.json())
+            .then(data =>{
+                console.log('Success:',data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again');
+            });
+        });
+            
+    
+    
+    //     async function fetchBooks() {
+    // const response = await fetch('/books');
+    // const books = await response.json();
+    // const bookList = document.getElementById('book-list');
+    // bookList.innerHTML = '';
+    
+    // books.forEach((book, index) => {
+    //     const listItem = document.createElement('li');
+        
+    //     // Crear enlace para ver detalles de la propiedad
+    //     const addressLink = document.createElement('a');
+    //     addressLink.href = `/detalles.html?index=${index}`;  // Redirigir a la página de detalles
+    //     addressLink.textContent = book.address;
+    //     addressLink.style.display = 'block'; // Opcional, para que cada dirección esté en una nueva línea
+        
+    //     listItem.appendChild(addressLink);
+
+      
+    //     bookList.appendChild(listItem);
+    });
+
+//document.addEventListener('DOMContentLoaded', fetchBooks);
+
+    </script>
+    
+    </body>
+    </html>
