@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Property</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Introduction to Web Programming</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="property.html">Properties</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <div class="container">
+        <h2>Edit Property</h2>
+        <form id="edit-form">
+            <input type="text" name="address" id="address" placeholder="Address" required>
+            <input type="text" name="neighborhood" id="neighborhood" placeholder="Neighborhood" required>
+            <input type="text" name="parking" id="parking" placeholder="Parking" required>
+            <input type="text" name="transit" id="transit" placeholder="Transit" required>
+            <input type="text" name="workspace" id="workspace" placeholder="Workspace" required>
+            <input type="text" name="type" id="type" placeholder="Type" required>
+            <input type="number" name="price" id="price" placeholder="Price" required>
+            <input type="text" name="availability" id="availability" placeholder="Availability" required>
+            <input type="date" name="availabilityDate" id="availabilityDate" required>
+            <input type="text" name="leaseTerm" id="leaseTerm" placeholder="Lease Term" required>
+            <input type="number" name="sqft" id="sqft" placeholder="Sqft" required>
+            <input type="number" name="seats" id="seats" placeholder="Seats" required>
+            <input type="checkbox" name="smoking" id="smoking"> Smoking Allowed
+            <button type="submit">Update Property</button>
+        </form>
+        <button id="cancel-button">Cancel</button>
+    </div>
+
+    <script>
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        async function fetchPropertyForEdit() {
+            const index = getQueryParam('index');
+            if (index === null) {
+                alert('No property selected.');
+                window.location.href = '/';
+                return;
+            }
+
+            try {
+                const response = await fetch(`/books/${index}`);
+                if (response.ok) {
+                    const book = await response.json();
+                    populateForm(book);
+                } else {
+                    alert('Property not found.');
+                }
+            } catch (error) {
+                console.error('Error fetching property details:', error);
+                alert('Error loading property details.');
+            }
+        }
+
+        function populateForm(book) {
+            document.getElementById('address').value = book.address;
+            document.getElementById('neighborhood').value = book.neighborhood;
+            document.getElementById('parking').value = book.parking;
+            document.getElementById('transit').value = book.transit;
+            document.getElementById('workspace').value = book.workspace;
+            document.getElementById('type').value = book.type;
+            document.getElementById('price').value = book.price;
+            document.getElementById('availability').value = book.availability;
+            document.getElementById('availabilityDate').value = new Date(book.availabilityDate).toISOString().split('T')[0];
+            document.getElementById('leaseTerm').value = book.leaseTerm;
+            document.getElementById('sqft').value = book.sqft;
+            document.getElementById('seats').value = book.seats;
+            document.getElementById('smoking').checked = book.smoking;
+        }
+
+        document.getElementById('edit-form').onsubmit = async (event) => {
+    event.preventDefault();
+
+    const index = getQueryParam('index');
+    if (index === null) return;
+
+    const updatedBook = {
+        address: document.getElementById('address').value,
+        neighborhood: document.getElementById('neighborhood').value,
+        parking: document.getElementById('parking').value,
+        transit: document.getElementById('transit').value,
+        workspace: document.getElementById('workspace').value,
+        type: document.getElementById('type').value,
+        price: document.getElementById('price').value,
+        availability: document.getElementById('availability').value,
+        availabilityDate: document.getElementById('availabilityDate').value,
+        leaseTerm: document.getElementById('leaseTerm').value,
+        sqft: document.getElementById('sqft').value,
+        seats: document.getElementById('seats').value,
+        smoking: document.getElementById('smoking').checked
+    };
+
+    try {
+        const response = await fetch(`/update-book/${index}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updatedBook)
+        });
+
+        if (response.ok) {
+            alert('Property updated successfully.');
+            window.location.href = '/property.html';  // Redirige a la lista de propiedades después de actualizar
+        } else {
+            const errorText = await response.text();
+            alert(`Failed to update the property: ${errorText}`);
+        }
+    } catch (error) {
+        console.error('Error updating property:', error);
+        alert('Error updating property.');
+    }
+};
+
+        document.getElementById('cancel-button').onclick = () => {
+            window.location.href = `/property.html`;
+        };
+
+        document.addEventListener('DOMContentLoaded', fetchPropertyForEdit);
+    </script>
+</body>
+</html>

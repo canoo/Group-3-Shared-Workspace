@@ -1,0 +1,117 @@
+div class="container">
+
+        <h2>properties List</h2>
+        <ul id="property-list"></ul>
+
+        <h1>Property</h1>
+        <form action="/add-property" method="POST">
+            <input type="text" name="address" placeholder="Address" required>
+            <input type="text" name="neighborhood" placeholder="Neighborhood" required>
+            <input type="text" name="parking" placeholder="Parking" required>
+            <input type="text" name="transit" placeholder="Transit" required>
+            <input type="text" name="workspace" placeholder="Workspace" required>
+            <input type="text" name="type" placeholder="Type" required>
+            <input type="text" name="price" placeholder="Price" required>
+            <input type="text" name="availability" placeholder="Availability" required>
+            <input type="text" name="availabilityDate" placeholder="AvailabilityDate" required>
+            <input type="text" name="leaseTerm" placeholder="LeaseTerm" required>
+            <input type="text" name="sqft" placeholder="Sqft" required>
+            <input type="text" name="seats" placeholder="Seats" required>
+            <input type="text" name="smoking" placeholder="Smoking" required>
+            <button type="submit">Add Property</button>
+        </form>
+
+<script>
+    async function fetchProperties() {
+        const response = await fetch('/properties');
+        const properties = await response.json()
+        const propertyList = document.getElementById('property-list');
+        propertyList.innerHTML = '';
+        properties.forEach((property, index)  => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${property.address}
+            by ${property.neighborhood}
+            by ${property.parking}
+            by ${property.transit}
+            by ${property.workspace}
+            by ${property.type}
+            by ${property.price}
+            by ${property.availability}
+            by ${property.availabilityDate}
+            by ${property.leaseTerm}
+            by ${property.sqft}
+            by ${property.seats}
+            by ${property.smoking}`;
+           
+            const deleteButton = document.createElement('button')
+            deleteButton.textContent = 'Delete'
+            deleteButton.onclick = () => {deleteProperty(index)}
+
+            listItem.appendChild(deleteButton)
+            propertyList.appendChild(listItem);
+            
+        });
+    }
+
+    async function deleteProperty(index){
+        const response = await fetch (`/delete-property/${index}`,{method: 'DELETE'})
+        if (response.ok){fetchProperties();}
+        else alert("Faild to delete the book")
+    }
+    document.addEventListener('DOMContentLoaded', fetchProperties)
+</script>
+    
+ 
+</body>
+</html>
+
+
+//paola Propiedades
+
+const loadProperty = () => {
+    if (fs.existsSync(propertiesFilePath)) {
+        const data = fs.readFileSync(propertiesFilePath)
+        properties = JSON.parse(data);
+    }
+}
+
+const saveProperty = () => {
+    fs.writeFileSync(propertiesFilePath, JSON.stringify(properties, null, 2))
+
+}
+
+app.get('/property.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'property.html'))
+})
+
+app.get('/property', (req, res) => {
+    console.log('Property fed.')
+    res.json(properties)
+})
+
+
+app.post('/add-property', (req, res) => {
+    const { address, neighborhood, parking, transit, workspace, type,
+        price, availability, availabilityDate, leaseTerm, sqft, seats, 
+        smoking } = req.body;
+    properties.push({address, neighborhood, parking, transit, workspace, type,
+        price, availability, availabilityDate, leaseTerm, sqft, seats, 
+        smoking});
+    saveProperty()
+    console.log(req.body)
+    res.redirect('/');
+})
+
+app.delete('/delete-property/:index', (req, res) =>{
+    const { index } = req.params
+    if (index >= 0 && index < properties.length) {
+        properties.splice(index, 1)
+        saveProperty()
+        res.status(200).send("property deleted!")
+    }
+    else {
+        res.status(404).send('property not found')
+    }
+
+})
+
