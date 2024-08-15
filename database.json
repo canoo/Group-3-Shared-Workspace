@@ -36,25 +36,5 @@
       "username": "admin",
       "password": "password"
     }
-  ],
-  "properties": [
-    {
-      "address": "1234 Elm St",
-      "neighborhood": "Downtown",
-      "parking": true,
-      "transit": true,
-      "workspace": [
-        {
-          "type": "private office",
-          "price": 100,
-          "availability": true,
-          "availabilityDate": "2020-01-01",
-          "leaseTerm": 12,
-          "sqft": 1000,
-          "seats": 10,
-          "smoking": false
-        }
-      ]
-    }
   ]
 }
