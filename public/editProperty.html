@@ -37,6 +37,9 @@
         </form>
         <button id="cancel-button">Cancel</button>
     </div>
+    <footer>
+        <p>&copy; Bow Valley College <span id="current-year"></span></p>
+    </footer> 
 
     <script>
         function getQueryParam(param) {
@@ -129,6 +132,8 @@
         };
 
         document.addEventListener('DOMContentLoaded', fetchPropertyForEdit);
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
     </script>
 </body>
 </html>
