@@ -144,6 +144,7 @@ app.get('/detailProperty.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'detailProperty.html'));
 });
 
+
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });

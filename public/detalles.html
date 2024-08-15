@@ -24,6 +24,10 @@
         <button id="edit-button">Edit Property</button>
         <button id="delete-button">Delete Property</button>
     </div>
+
+    <footer>
+        <p>&copy; Bow Valley College <span id="current-year"></span></p>
+    </footer> 
  
     <script>
         // Obtener el índice de la propiedad desde la URL
@@ -98,6 +102,8 @@
         }
  
         document.addEventListener('DOMContentLoaded', fetchPropertyDetails);
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
     </script>
 </body>
 </html>
