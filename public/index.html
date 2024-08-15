@@ -16,19 +16,7 @@
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-    <header>
-        <h1>Introduction to Web Programming</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="property.html">Properties</a></li>
-            </ul>
-        </nav>
-    </header>
-
     <h1>Shared Workspaces</h1>
-    <img id="img-1" src="img1.jpg" alt= "img1">
-
     <div>
         <button id="loginButton" onclick="showLoginForm()">Login</button>
         <button id="signupButton" onclick="showSignupForm()">Sign Up</button>
@@ -80,7 +68,7 @@
             document.getElementById("signupForm").style.display = "block";
         }
 
-        (function(){
+       (function(){
             document.getElementById("signupForm").addEventListener("submit", function(event){
             event.preventDefault();
             
@@ -92,7 +80,7 @@
                 username: username,
                 password: password
             };
-            fetch("../api/users", {
+            fetch("../api/users/signup", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -102,7 +90,7 @@
 
             //@ignore 
             //for debugging purposes
-            //.then(response => response.json())
+            .then(response => response.json())
             .then(data => {
                 console.log('Success:',data);
 
@@ -133,7 +121,7 @@
                 phone: phone,
                 fullName: fullName
             };
-            fetch("../api/users", {
+            fetch("../api/users/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -143,11 +131,16 @@
 
             //@ignore 
             //for debugging purposes
-            //.then(response => response.json())
+            .then(response => response.json())
             .then(data => {
-                console.log('Success:',data);
-                window.location.href = "home.html"
-
+                if (data.success) {  // Assuming the API returns a success field
+                    window.location.href = "home.html";
+                } else {
+                    alert('Login failed. Please check your credentials');
+                }
+               // console.log('Success:',data);
+                //window.location.href = "home.html";
+                
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -156,7 +149,5 @@
         });
         });
     </script>
-    
- 
 </body>
 </html>
