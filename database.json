@@ -16,5 +16,22 @@
       "phone": "12312312312",
       "fullName": "Co Worker"
     }
+  ],
+  "properties": [
+    {
+      "address": "123 Main St",
+      "neighborhood": "Downtown",
+      "parking": "Yes",
+      "transit": "Near subway",
+      "workspace": "Available",
+      "type": "Apartment",
+      "price": 1500,
+      "availability": "Immediate",
+      "availabilityDate": "2024-09-01",
+      "leaseTerm": "12 months",
+      "sqft": 1200,
+      "seats": 5,
+      "smoking": false
+    }
   ]
 }

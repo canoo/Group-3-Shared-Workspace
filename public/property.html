@@ -19,7 +19,8 @@
  
     <div class="container">
         <h2>Property List</h2>
-        <div id="property-list"></div>
+        <!-- Changed to an unordered list -->
+        <ul id="property-list"></ul>
     </div>
  
     <div class="container">
@@ -75,7 +76,7 @@
 
                 if (response.ok) {
                     alert('Property added successfully.');
-                    window.location.href = '/property.html';  // Redirect after adding
+                    fetchProperties(); // Refresh the property list
                 } else {
                     alert('Failed to add the property.');
                 }
@@ -86,25 +87,36 @@
         };
 
         async function fetchProperties() {
-            const response = await fetch('/api/properties');
-            const properties = await response.json();
-            const propertyList = document.getElementById('property-list');
-            propertyList.innerHTML = '';
-            
+    try {
+        const response = await fetch('/api/properties');
+        const properties = await response.json();
+
+        console.log('Properties fetched:', properties); // Verify the response structure
+
+        const propertyList = document.getElementById('property-list');
+        propertyList.innerHTML = '';
+
+        if (Array.isArray(properties.data)) {
             properties.data.forEach((property, index) => {
                 const listItem = document.createElement('li');
                 
                 // Create link to view property details
                 const addressLink = document.createElement('a');
-                addressLink.href = `/detailProperty.html?index=${index}`;  // Redirect to details page
+                addressLink.href = `/detailProperty.html?index=${index}`;
                 addressLink.textContent = property.address;
-                addressLink.style.display = 'block'; // Optional, to put each address on a new line
+                addressLink.style.display = 'block';
                 
                 listItem.appendChild(addressLink);
                 propertyList.appendChild(listItem);
             });
+        } else {
+            console.error('Unexpected data format:', properties);
         }
-        
+    } catch (error) {
+        console.error('Error fetching properties:', error);
+        alert('Error loading properties.');
+    }
+}
         document.addEventListener('DOMContentLoaded', fetchProperties);
         document.getElementById('current-year').textContent = new Date().getFullYear();
     </script>
