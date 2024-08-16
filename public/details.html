@@ -1,4 +1,3 @@
-[11:20 AM] Paola Lampe Tinoco
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,24 +29,24 @@
     </footer> 
  
     <script>
-        // Obtener el índice de la propiedad desde la URL
+        // Function to get query parameter value from the URL
         function getQueryParam(param) {
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(param);
         }
  
         async function fetchPropertyDetails() {
-            const index = getQueryParam('index');  // Obtener el índice de la URL
+            const index = getQueryParam('index');  // Get the index from the URL
             if (index === null) {
                 document.getElementById('property-details').innerHTML = 'No property selected.';
                 return;
             }
  
             try {
-                const response = await fetch(`/books/${index}`);
+                const response = await fetch(`/api/properties/${index}`);
                 if (response.ok) {
-                    const book = await response.json();
-                    displayPropertyDetails(book, index);
+                    const property = await response.json();
+                    displayPropertyDetails(property, index);
                 } else {
                     document.getElementById('property-details').innerHTML = 'Property not found.';
                 }
@@ -57,45 +56,49 @@
             }
         }
  
-        // Mostrar los detalles de la propiedad
-        function displayPropertyDetails(book, index) {
+        // Display the property details
+        function displayPropertyDetails(property, index) {
             const detailsContainer = document.getElementById('property-details');
  
+            const workspaceDetails = property.workspace.map(ws => `
+                <p><strong>Type:</strong> ${ws.type}</p>
+                <p><strong>Price:</strong> ${ws.price}</p>
+                <p><strong>Availability:</strong> ${ws.availability}</p>
+                <p><strong>Availability Date:</strong> ${new Date(ws.availabilityDate).toLocaleDateString()}</p>
+                <p><strong>Lease Term:</strong> ${ws.leaseTerm}</p>
+                <p><strong>Sqft:</strong> ${ws.sqft}</p>
+                <p><strong>Seats:</strong> ${ws.seats}</p>
+                <p><strong>Smoking:</strong> ${ws.smoking ? 'Yes' : 'No'}</p>
+            `).join('');
+ 
             detailsContainer.innerHTML = `
-                <p><strong>Address:</strong> ${book.address}</p>
-                <p><strong>Neighborhood:</strong> ${book.neighborhood}</p>
-                <p><strong>Parking:</strong> ${book.parking}</p>
-                <p><strong>Transit:</strong> ${book.transit}</p>
-                <p><strong>Workspace:</strong> ${book.workspace}</p>
-                <p><strong>Type:</strong> ${book.type}</p>
-                <p><strong>Price:</strong> ${book.price}</p>
-                <p><strong>Availability:</strong> ${book.availability}</p>
-                <p><strong>Availability Date:</strong> ${new Date(book.availabilityDate).toLocaleDateString()}</p>
-                <p><strong>Lease Term:</strong> ${book.leaseTerm}</p>
-                <p><strong>Sqft:</strong> ${book.sqft}</p>
-                <p><strong>Seats:</strong> ${book.seats}</p>
-                <p><strong>Smoking:</strong> ${book.smoking ? 'Yes' : 'No'}</p>
+                <p><strong>Address:</strong> ${property.address}</p>
+                <p><strong>Neighborhood:</strong> ${property.neighborhood}</p>
+                <p><strong>Parking:</strong> ${property.parking ? 'Yes' : 'No'}</p>
+                <p><strong>Transit:</strong> ${property.transit ? 'Yes' : 'No'}</p>
+                <h3>Workspaces</h3>
+                ${workspaceDetails}
             `;
  
-            // Asociar el botón de borrar con la función deleteBook
+            // Associate the delete button with the deleteProperty function
             const deleteButton = document.getElementById('delete-button');
             deleteButton.onclick = () => {
-                deleteBook(index);
+                deleteProperty(index);
             };
  
-            // Asociar el botón de editar con la función editProperty
+            // Associate the edit button with the editProperty function
             const editButton = document.getElementById('edit-button');
             editButton.onclick = () => {
                 window.location.href = `/editProperty.html?index=${index}`;
             };
         }
  
-        // Función para borrar la propiedad
-        async function deleteBook(index) {
-            const response = await fetch(`/delete-book/${index}`, { method: 'DELETE' });
+        // Function to delete the property
+        async function deleteProperty(index) {
+            const response = await fetch(`/api/properties/${index}`, { method: 'DELETE' });
             if (response.ok) {
                 alert("Property deleted successfully.");
-                window.location.href = '/';  // Redirige a la página principal después de borrar
+                window.location.href = '/property.html';  // Redirect to the property list after deletion
             } else {
                 alert("Failed to delete the property.");
             }
@@ -107,5 +110,3 @@
     </script>
 </body>
 </html>
- 
- 
