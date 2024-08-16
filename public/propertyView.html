@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Details</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Property Details</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="property.html">Properties</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <div class="container">
+        <div id="property-details"></div>
+    </div>
+
+    <footer>
+        <p>&copy; Bow Valley College <span id="current-year"></span></p>
+    </footer> 
+
+    <script>
+        // Function to get query parameter value from the URL
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // Fetch and display property details
+        async function fetchPropertyDetails() {
+            const index = getQueryParam('index');  // Get the index from the URL
+            if (index === null) {
+                document.getElementById('property-details').innerHTML = 'No property selected.';
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/properties/${index}`);
+                if (response.ok) {
+                    const property = await response.json();
+                    displayPropertyDetails(property);
+                } else {
+                    document.getElementById('property-details').innerHTML = 'Property not found.';
+                }
+            } catch (error) {
+                console.error('Error fetching property details:', error);
+                document.getElementById('property-details').innerHTML = 'Error loading property details.';
+            }
+        }
+
+        // Display the property details
+        function displayPropertyDetails(property) {
+            const detailsContainer = document.getElementById('property-details');
+
+            detailsContainer.innerHTML = `
+                <img src="${property.imageUrl}" alt="${property.address}" class="property-image">
+                <p><strong>Address:</strong> ${property.address}</p>
+                <p><strong>Neighborhood:</strong> ${property.neighborhood}</p>
+                <p><strong>Square Feet:</strong> ${property.sqft}</p>
+                <p><strong>Parking:</strong> ${property.parking ? 'Yes' : 'No'}</p>
+                <p><strong>Public Transportation:</strong> ${property.transit ? 'Yes' : 'No'}</p>
+                <p><strong>Seats:</strong> ${property.seats}</p>
+                <p><strong>Smoking:</strong> ${property.smoking ? 'Yes' : 'No'}</p>
+                <p><strong>Availability Date:</strong> ${new Date(property.availabilityDate).toLocaleDateString()}</p>
+                <p><strong>Lease Term:</strong> ${property.leaseTerm} months</p>
+                <p><strong>Price:</strong> $${property.price}</p>
+            `;
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchPropertyDetails);
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
