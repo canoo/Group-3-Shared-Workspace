@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rented Property</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Rented Property</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="property.html">Properties</a></li>
+                <li><button onclick="logout()">Logout</button></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <div class="container">
+        <h2>Rented Property Details</h2>
+        <div id="rented-property-details"></div>
+        <h3>Rate the Property</h3>
+        <label for="rating">Rating (1-5):</label>
+        <input type="number" id="rating" min="1" max="5">
+        <button id="submit-rating">Submit Rating</button>
+    </div>
+
+    <footer>
+        <p>&copy; Bow Valley College <span id="current-year"></span></p>
+    </footer> 
+ 
+    <script>
+        // Function to get query parameter value from the URL
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+ 
+        async function fetchRentedPropertyDetails() {
+            const index = getQueryParam('index');  // Get the index from the URL
+            if (index === null) {
+                document.getElementById('rented-property-details').innerHTML = 'No property selected.';
+                return;
+            }
+ 
+            try {
+                console.log('Fetching property with index:', index);  // Debugging
+                const response = await fetch(`/api/properties/${index}`);
+                if (response.ok) {
+                    const property = await response.json();
+                    console.log('Fetched property:', property);  // Debugging
+                    displayRentedPropertyDetails(property);
+                } else {
+                    console.error('Failed to fetch property:', response.statusText);  // Debugging
+                    document.getElementById('rented-property-details').innerHTML = 'Property not found.';
+                }
+            } catch (error) {
+                console.error('Error fetching property details:', error);
+                document.getElementById('rented-property-details').innerHTML = 'Error loading property details.';
+            }
+        }
+ 
+        // Display the rented property details
+        function displayRentedPropertyDetails(property) {
+            const detailsContainer = document.getElementById('rented-property-details');
+            
+            detailsContainer.innerHTML = `
+                <p><strong>Address:</strong> ${property.address}</p>
+                <p><strong>Neighborhood:</strong> ${property.neighborhood}</p>
+                <p><strong>Price:</strong> ${property.price}</p>
+                <p><strong>Seats:</strong> ${property.seats}</p>
+                <p><strong>Availability:</strong> ${property.availability}</p>
+                <p><strong>Lease Term:</strong> ${property.leaseTerm}</p>
+                <p><strong>Sqft:</strong> ${property.sqft}</p>
+                <p><strong>Smoking:</strong> ${property.smoking ? 'Yes' : 'No'}</p>
+            `;
+        }
+ 
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userInfo');
+            window.location.href = 'index.html';
+        }
+ 
+        document.addEventListener('DOMContentLoaded', fetchRentedPropertyDetails);
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+        
+        // Function to handle rating submission
+        document.getElementById('submit-rating').addEventListener('click', () => {
+            const rating = document.getElementById('rating').value;
+            if (rating < 1 || rating > 5) {
+                alert('Please enter a rating between 1 and 5.');
+                return;
+            }
+            // Handle rating submission (e.g., save it to a database or API)
+            alert(`Thank you for rating the property ${rating} stars!`);
+        });
+    </script>
+</body>
+</html>

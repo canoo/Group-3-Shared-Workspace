@@ -46,6 +46,7 @@ app.post('/api/users', (req, res) => {
 
 // Get all properties
 app.get('/api/properties', (_, res) => {
+  console.log('Fetching properties:', db.properties);  // Debugging
   res.json({ data: db.properties });
 });
 

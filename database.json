@@ -115,11 +115,26 @@
       "transit": "NO",
       "workspace": "office",
       "type": "Office",
-      "price": 1000,
+      "price": "1000",
       "availability": "yes",
       "availabilityDate": "2024-08-23",
       "leaseTerm": "days",
-      "sqft": 300,
+      "sqft": "300",
+      "seats": "2",
+      "smoking": false
+    },
+    {
+      "address": "Prueba",
+      "neighborhood": "Vecindario",
+      "parking": "NO",
+      "transit": "YES",
+      "workspace": "Office",
+      "type": "Room",
+      "price": 600,
+      "availability": "YES",
+      "availabilityDate": "2024-08-17",
+      "leaseTerm": "Days",
+      "sqft": 500,
       "seats": 2,
       "smoking": false
     }

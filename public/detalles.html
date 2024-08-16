@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Details</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main>
+        <header>
+            <h1>Shared Workspaces</h1>
+            <nav>
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="contactus.html">Contact us</a></li>
+                    <li><button class="logoutButton" onclick="logout()">Logout</button></li>
+                </ul>
+            </nav>
+        </header>
+
+    
+        <div class="container">
+            <h2>Details</h2>
+            <div id="property-details"></div>
+            <button id="rent-button">Rent</button>
+        </div>
+
+    
+    <script>
+        // Function to get query parameter value from the URL
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+ 
+        async function fetchPropertyDetails() {
+            const index = getQueryParam('index');  // Get the index from the URL
+            if (index === null) {
+                document.getElementById('property-details').innerHTML = 'No property selected.';
+                return;
+            }
+ 
+            try {
+                console.log('Fetching property with index:', index);  // Debugging
+                const response = await fetch(`/api/properties/${index}`);
+                if (response.ok) {
+                    const property = await response.json();
+                    console.log('Fetched property:', property);  // Debugging
+                    displayPropertyDetails(property, index);
+                } else {
+                    console.error('Failed to fetch property:', response.statusText);  // Debugging
+                    document.getElementById('property-details').innerHTML = 'Property not found.';
+                }
+            } catch (error) {
+                console.error('Error fetching property details:', error);
+                document.getElementById('property-details').innerHTML = 'Error loading property details.';
+            }
+        }
+ 
+        // Display the property details
+        function displayPropertyDetails(property, index) {
+            const detailsContainer = document.getElementById('property-details');
+            
+            const workspaceDetails = `
+                <p><strong>Workspace:</strong> ${property.workspace}</p>
+                <p><strong>Type:</strong> ${property.type}</p>
+                <p><strong>Price:</strong> ${property.price}</p>
+                <p><strong>Availability:</strong> ${property.availability}</p>
+                <p><strong>Availability Date:</strong> ${new Date(property.availabilityDate).toLocaleDateString()}</p>
+                <p><strong>Lease Term:</strong> ${property.leaseTerm}</p>
+                <p><strong>Sqft:</strong> ${property.sqft}</p>
+                <p><strong>Seats:</strong> ${property.seats}</p>
+                <p><strong>Smoking:</strong> ${property.smoking ? 'Yes' : 'No'}</p>
+            `;
+ 
+            detailsContainer.innerHTML = `
+                <p><strong>Address:</strong> ${property.address}</p>
+                <p><strong>Neighborhood:</strong> ${property.neighborhood}</p>
+                <p><strong>Parking:</strong> ${property.parking ? 'Yes' : 'No'}</p>
+                <p><strong>Transit:</strong> ${property.transit ? 'Yes' : 'No'}</p>
+                <h3>Workspace Details</h3>
+                ${workspaceDetails}
+            `;
+ 
+            // Associate the rent button with the rentProperty function
+            const rentButton = document.getElementById('rent-button');
+            rentButton.onclick = () => {
+                window.location.href = `/rentedProperty.html?index=${index}`;
+            };
+        }
+ 
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userInfo');
+            window.location.href = 'index.html';
+        }
+ 
+        document.addEventListener('DOMContentLoaded', fetchPropertyDetails);
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+    </main>
+    <footer>
+        <p>&copy; Bow Valley College <span id="current-year"></span></p>
+    </footer> 
+ 
+
+</body>
+</html>
