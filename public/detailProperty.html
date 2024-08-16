@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Details</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Introduction to Web Programming</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="property.html">Properties</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <div class="container">
+        <h2>Details</h2>
+        <div id="property-details"></div>
+        <button id="edit-button">Edit Property</button>
+        <button id="delete-button">Delete Property</button>
+    </div>
+
+    <footer>
+        <p>&copy; Bow Valley College <span id="current-year"></span></p>
+    </footer> 
+ 
+    <script>
+        // Function to get query parameter value from the URL
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+ 
+        async function fetchPropertyDetails() {
+            const index = getQueryParam('index');  // Get the index from the URL
+            if (index === null) {
+                document.getElementById('property-details').innerHTML = 'No property selected.';
+                return;
+            }
+ 
+            try {
+                console.log('Fetching property with index:', index);  // Debugging
+                const response = await fetch(`/api/properties/${index}`);
+                if (response.ok) {
+                    const property = await response.json();
+                    console.log('Fetched property:', property);  // Debugging
+                    displayPropertyDetails(property, index);
+                } else {
+                    console.error('Failed to fetch property:', response.statusText);  // Debugging
+                    document.getElementById('property-details').innerHTML = 'Property not found.';
+                }
+            } catch (error) {
+                console.error('Error fetching property details:', error);
+                document.getElementById('property-details').innerHTML = 'Error loading property details.';
+            }
+        }
+ 
+        // Display the property details
+        function displayPropertyDetails(property, index) {
+            const detailsContainer = document.getElementById('property-details');
+            
+            // Adjust to handle `workspace` as a single string
+            const workspaceDetails = `
+                <p><strong>Workspace:</strong> ${property.workspace}</p>
+                <p><strong>Type:</strong> ${property.type}</p>
+                <p><strong>Price:</strong> ${property.price}</p>
+                <p><strong>Availability:</strong> ${property.availability}</p>
+                <p><strong>Availability Date:</strong> ${new Date(property.availabilityDate).toLocaleDateString()}</p>
+                <p><strong>Lease Term:</strong> ${property.leaseTerm}</p>
+                <p><strong>Sqft:</strong> ${property.sqft}</p>
+                <p><strong>Seats:</strong> ${property.seats}</p>
+                <p><strong>Smoking:</strong> ${property.smoking ? 'Yes' : 'No'}</p>
+            `;
+ 
+            detailsContainer.innerHTML = `
+                <p><strong>Address:</strong> ${property.address}</p>
+                <p><strong>Neighborhood:</strong> ${property.neighborhood}</p>
+                <p><strong>Parking:</strong> ${property.parking ? 'Yes' : 'No'}</p>
+                <p><strong>Transit:</strong> ${property.transit ? 'Yes' : 'No'}</p>
+                <h3>Workspace Details</h3>
+                ${workspaceDetails}
+            `;
+ 
+            // Associate the delete button with the deleteProperty function
+            const deleteButton = document.getElementById('delete-button');
+            deleteButton.onclick = () => {
+                deleteProperty(index);
+            };
+ 
+            // Associate the edit button with the editProperty function
+            const editButton = document.getElementById('edit-button');
+            editButton.onclick = () => {
+                window.location.href = `/editProperty.html?index=${index}`;
+            };
+        }
+ 
+        // Function to delete the property
+        async function deleteProperty(index) {
+            try {
+                const response = await fetch(`/api/properties/${index}`, { method: 'DELETE' });
+                if (response.ok) {
+                    alert("Property deleted successfully.");
+                    window.location.href = '/property.html';  // Redirect to the property list after deletion
+                } else {
+                    alert("Failed to delete the property.");
+                }
+            } catch (error) {
+                console.error('Error deleting property:', error);
+                alert('Error deleting property.');
+            }
+        }
+ 
+        document.addEventListener('DOMContentLoaded', fetchPropertyDetails);
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+    </script>
+</body>
+</html>

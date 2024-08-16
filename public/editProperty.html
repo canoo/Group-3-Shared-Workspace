@@ -51,17 +51,18 @@
             const index = getQueryParam('index');
             if (index === null) {
                 alert('No property selected.');
-                window.location.href = '/';
+                window.location.href = '/property.html';
                 return;
             }
 
             try {
-                const response = await fetch(`/books/${index}`);
+                const response = await fetch(`/api/properties/${index}`);
                 if (response.ok) {
-                    const book = await response.json();
-                    populateForm(book);
+                    const property = await response.json();
+                    populateForm(property);
                 } else {
                     alert('Property not found.');
+                    window.location.href = '/property.html';
                 }
             } catch (error) {
                 console.error('Error fetching property details:', error);
@@ -69,63 +70,63 @@
             }
         }
 
-        function populateForm(book) {
-            document.getElementById('address').value = book.address;
-            document.getElementById('neighborhood').value = book.neighborhood;
-            document.getElementById('parking').value = book.parking;
-            document.getElementById('transit').value = book.transit;
-            document.getElementById('workspace').value = book.workspace;
-            document.getElementById('type').value = book.type;
-            document.getElementById('price').value = book.price;
-            document.getElementById('availability').value = book.availability;
-            document.getElementById('availabilityDate').value = new Date(book.availabilityDate).toISOString().split('T')[0];
-            document.getElementById('leaseTerm').value = book.leaseTerm;
-            document.getElementById('sqft').value = book.sqft;
-            document.getElementById('seats').value = book.seats;
-            document.getElementById('smoking').checked = book.smoking;
+        function populateForm(property) {
+            document.getElementById('address').value = property.address;
+            document.getElementById('neighborhood').value = property.neighborhood;
+            document.getElementById('parking').value = property.parking;
+            document.getElementById('transit').value = property.transit;
+            document.getElementById('workspace').value = property.workspace;
+            document.getElementById('type').value = property.type;
+            document.getElementById('price').value = property.price;
+            document.getElementById('availability').value = property.availability;
+            document.getElementById('availabilityDate').value = new Date(property.availabilityDate).toISOString().split('T')[0];
+            document.getElementById('leaseTerm').value = property.leaseTerm;
+            document.getElementById('sqft').value = property.sqft;
+            document.getElementById('seats').value = property.seats;
+            document.getElementById('smoking').checked = property.smoking;
         }
 
         document.getElementById('edit-form').onsubmit = async (event) => {
-    event.preventDefault();
+            event.preventDefault();
 
-    const index = getQueryParam('index');
-    if (index === null) return;
+            const index = getQueryParam('index');
+            if (index === null) return;
 
-    const updatedBook = {
-        address: document.getElementById('address').value,
-        neighborhood: document.getElementById('neighborhood').value,
-        parking: document.getElementById('parking').value,
-        transit: document.getElementById('transit').value,
-        workspace: document.getElementById('workspace').value,
-        type: document.getElementById('type').value,
-        price: document.getElementById('price').value,
-        availability: document.getElementById('availability').value,
-        availabilityDate: document.getElementById('availabilityDate').value,
-        leaseTerm: document.getElementById('leaseTerm').value,
-        sqft: document.getElementById('sqft').value,
-        seats: document.getElementById('seats').value,
-        smoking: document.getElementById('smoking').checked
-    };
+            const updatedProperty = {
+                address: document.getElementById('address').value,
+                neighborhood: document.getElementById('neighborhood').value,
+                parking: document.getElementById('parking').value,
+                transit: document.getElementById('transit').value,
+                workspace: document.getElementById('workspace').value,
+                type: document.getElementById('type').value,
+                price: document.getElementById('price').value,
+                availability: document.getElementById('availability').value,
+                availabilityDate: document.getElementById('availabilityDate').value,
+                leaseTerm: document.getElementById('leaseTerm').value,
+                sqft: document.getElementById('sqft').value,
+                seats: document.getElementById('seats').value,
+                smoking: document.getElementById('smoking').checked
+            };
 
-    try {
-        const response = await fetch(`/update-book/${index}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(updatedBook)
-        });
+            try {
+                const response = await fetch(`/api/properties/${index}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(updatedProperty)
+                });
 
-        if (response.ok) {
-            alert('Property updated successfully.');
-            window.location.href = '/property.html';  // Redirige a la lista de propiedades después de actualizar
-        } else {
-            const errorText = await response.text();
-            alert(`Failed to update the property: ${errorText}`);
-        }
-    } catch (error) {
-        console.error('Error updating property:', error);
-        alert('Error updating property.');
-    }
-};
+                if (response.ok) {
+                    alert('Property updated successfully.');
+                    window.location.href = '/property.html';
+                } else {
+                    const errorText = await response.text();
+                    alert(`Failed to update the property: ${errorText}`);
+                }
+            } catch (error) {
+                console.error('Error updating property:', error);
+                alert('Error updating property.');
+            }
+        };
 
         document.getElementById('cancel-button').onclick = () => {
             window.location.href = `/property.html`;

@@ -1,17 +1,7 @@
-<!--
-@group: 3
-@name: Shared Worspace
-@Course Code: SODV1201
-@class: Software Development Diploma program.
-@author: Erika Ortiz, Emiliano Martinez, Paola Lampe Tinoco, Ashpreet Kaur   
-@reference:
--->
- 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- Your content goes here -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shared Workspace</title>
     <link rel="stylesheet" href="styles.css">
@@ -28,12 +18,13 @@
     </header>
  
     <div class="container">
-        <h2>Book List</h2>
-        <ul id="book-list"></ul>
+        <h2>Property List</h2>
+        <!-- Changed to an unordered list -->
+        <ul id="property-list"></ul>
     </div>
  
     <div class="container">
-        <h1>Library</h1>
+        <h1>Add New Property</h1>
         <form id="add-form">
             <input type="text" id="address" placeholder="Address" required>
             <input type="text" id="neighborhood" placeholder="Neighborhood" required>
@@ -50,20 +41,17 @@
             <input type="checkbox" id="smoking"> Smoking Allowed
             <button type="submit">Add Property</button>
         </form>
+    </div>
     
-        <a href = "/detailProperty.html">View Books</a>
-    
-        
-      </div>
-      <footer>
+    <footer>
         <p>&copy; Bow Valley College <span id="current-year"></span></p>
     </footer> 
     
-      <script>
+    <script>
         document.getElementById('add-form').onsubmit = async (event) => {
             event.preventDefault();
- 
-            const newBook = {
+
+            const newProperty = {
                 address: document.getElementById('address').value,
                 neighborhood: document.getElementById('neighborhood').value,
                 parking: document.getElementById('parking').value,
@@ -78,17 +66,17 @@
                 seats: parseInt(document.getElementById('seats').value, 10),  // Convert to integer
                 smoking: document.getElementById('smoking').checked  // Convert to boolean
             };
- 
+
             try {
-                const response = await fetch('/add-book', {
+                const response = await fetch('/api/properties', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(newBook)
+                    body: JSON.stringify(newProperty)
                 });
- 
+
                 if (response.ok) {
                     alert('Property added successfully.');
-                    window.location.href = '/property.html';  // Redirect after adding
+                    fetchProperties(); // Refresh the property list
                 } else {
                     alert('Failed to add the property.');
                 }
@@ -97,33 +85,40 @@
                 alert('Error adding property.');
             }
         };
- 
-        async function fetchBooks() {
-    const response = await fetch('/books');
-    const books = await response.json();
-    const bookList = document.getElementById('book-list');
-    bookList.innerHTML = '';
-    
-    books.forEach((book, index) => {
-        const listItem = document.createElement('li');
-        
-        // Crear enlace para ver detalles de la propiedad
-        const addressLink = document.createElement('a');
-        addressLink.href = `/detalles.html?index=${index}`;  // Redirigir a la página de detalles
-        addressLink.textContent = book.address;
-        addressLink.style.display = 'block'; // Opcional, para que cada dirección esté en una nueva línea
-        
-        listItem.appendChild(addressLink);
- 
-      
-        bookList.appendChild(listItem);
-        });
-    }
-    
-    document.addEventListener('DOMContentLoaded', fetchBooks);
-    document.getElementById('current-year').textContent = new Date().getFullYear();
 
+        async function fetchProperties() {
+    try {
+        const response = await fetch('/api/properties');
+        const properties = await response.json();
+
+        console.log('Properties fetched:', properties); // Verify the response structure
+
+        const propertyList = document.getElementById('property-list');
+        propertyList.innerHTML = '';
+
+        if (Array.isArray(properties.data)) {
+            properties.data.forEach((property, index) => {
+                const listItem = document.createElement('li');
+                
+                // Create link to view property details
+                const addressLink = document.createElement('a');
+                addressLink.href = `/detailProperty.html?index=${index}`;
+                addressLink.textContent = property.address;
+                addressLink.style.display = 'block';
+                
+                listItem.appendChild(addressLink);
+                propertyList.appendChild(listItem);
+            });
+        } else {
+            console.error('Unexpected data format:', properties);
+        }
+    } catch (error) {
+        console.error('Error fetching properties:', error);
+        alert('Error loading properties.');
+    }
+}
+        document.addEventListener('DOMContentLoaded', fetchProperties);
+        document.getElementById('current-year').textContent = new Date().getFullYear();
     </script>
-    
-    </body>
-    </html>
+</body>
+</html>

@@ -9,32 +9,29 @@
       "phone": "403-123-4567"
     },
     {
-      "username": "test",
-      "password": "test",
-      "email": "test@test.com",
-      "role": "admin",
-      "phone": "test",
-      "fullName": "test test"
-    },
+      "username": "co-owner",
+      "password": "password",
+      "email": "123@a.com",
+      "role": "co-owner",
+      "phone": "12312312312",
+      "fullName": "Co Worker"
+    }
+  ],
+  "properties": [
     {
-      "username": "test",
-      "password": "test",
-      "email": "test@test.com",
-      "role": "admin",
-      "phone": "test",
-      "fullName": "test test"
-    },
-    {
-      "username": "admin",
-      "password": "password"
-    },
-    {
-      "username": "admin",
-      "password": "password"
-    },
-    {
-      "username": "admin",
-      "password": "password"
+      "address": "123 Main St",
+      "neighborhood": "Downtown",
+      "parking": "Yes",
+      "transit": "Near subway",
+      "workspace": "Available",
+      "type": "Apartment",
+      "price": "1500",
+      "availability": "Immediate",
+      "availabilityDate": "2024-09-01",
+      "leaseTerm": "12 months",
+      "sqft": "1200",
+      "seats": "5",
+      "smoking": true
     }
   ]
 }

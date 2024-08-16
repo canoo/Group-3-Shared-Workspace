@@ -13,125 +13,83 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Serve static files from the "public" directory
 app.use(express.static(path.join(__dirname, 'public')));
 
-// API Routes
-app.get('/api/users', (_, res) => {
-  fs.readFile('database.json', (err, data) => {
-    if (err) {
-      res.status(500).json({ error: err.message });
-      return;
-    }
+// Load the database
+let db = { users: [], properties: [] };
 
-    const db = JSON.parse(data);
-    res.json({ data: db.users || [] });
-  });
+const loadDatabase = () => {
+  if (fs.existsSync('database.json')) {
+    const data = fs.readFileSync('database.json');
+    db = JSON.parse(data);
+  }
+};
+
+const saveDatabase = () => {
+  fs.writeFileSync('database.json', JSON.stringify(db, null, 2));
+};
+
+loadDatabase();
+
+// API Routes
+
+// Get all users
+app.get('/api/users', (_, res) => {
+  res.json({ data: db.users });
 });
 
+// Add a new user
 app.post('/api/users', (req, res) => {
   const newUser = req.body;
-
-  fs.readFile('database.json', (err, data) => {
-    if (err) {
-      res.status(500).json({ error: err.message });
-      return;
-    }
-
-    const db = JSON.parse(data);
-    db.users = db.users || [];
-    db.users.push(newUser);
-
-    fs.writeFile('database.json', JSON.stringify(db, null, 2), (err) => {
-      if (err) {
-        res.status(500).json({ error: err.message });
-        return;
-      }
-      res.json({ data: newUser, message: 'User added successfully' });
-    });
-  });
+  db.users.push(newUser);
+  saveDatabase();
+  res.json({ data: newUser, message: 'User added successfully' });
 });
 
+// Get all properties
 app.get('/api/properties', (_, res) => {
-  fs.readFile('database.json', (err, data) => {
-    if (err) {
-      res.status(500).json({ error: err.message });
-      return;
-    }
-
-    const db = JSON.parse(data);
-    res.json({ data: db.properties || [] });
-  });
+  res.json({ data: db.properties });
 });
 
+// Get a specific property by index
+app.get('/api/properties/:index', (req, res) => {
+  const { index } = req.params;
+  if (index >= 0 && index < db.properties.length) {
+    res.json(db.properties[index]);
+  } else {
+    res.status(404).send('Property not found');
+  }
+});
+
+// Add a new property
 app.post('/api/properties', (req, res) => {
   const newProperty = req.body;
-
-  fs.readFile('database.json', (err, data) => {
-    if (err) {
-      res.status(500).json({ error: err.message });
-      return;
-    }
-
-    const db = JSON.parse(data);
-    db.properties = db.properties || [];
-    db.properties.push(newProperty);
-
-    fs.writeFile('database.json', JSON.stringify(db, null, 2), (err) => {
-      if (err) {
-        res.status(500).json({ error: err.message });
-        return;
-      }
-      res.json({ data: newProperty, message: 'Property added successfully' });
-    });
-  });
+  db.properties.push(newProperty);
+  saveDatabase();
+  res.json({ data: newProperty, message: 'Property added successfully' });
 });
 
-// Property Routes
-let books = [];
-
-const loadBooks = () => {
-  if (fs.existsSync('books.json')) {
-    const data = fs.readFileSync('books.json');
-    books = JSON.parse(data);
-  }
-};
-
-const saveBook = () => {
-  fs.writeFileSync('books.json', JSON.stringify(books, null, 2));
-};
-
-loadBooks();
-
-app.get('/books', (req, res) => {
-  res.json(books);
-});
-
-app.post('/add-book', (req, res) => {
-  const newBook = req.body;
-  books.push(newBook);
-  saveBook();
-  res.redirect('/');
-});
-
-app.delete('/delete-book/:index', (req, res) => {
+// Update a property by index
+app.put('/api/properties/:index', (req, res) => {
   const { index } = req.params;
-  if (index >= 0 && index < books.length) {
-    books.splice(index, 1);
-    saveBook();
-    res.status(200).send("Book deleted!");
+  const updatedProperty = req.body;
+
+  if (index >= 0 && index < db.properties.length) {
+    db.properties[index] = updatedProperty;
+    saveDatabase();
+    res.status(200).send('Property updated successfully');
   } else {
-    res.status(404).send('Book not found');
+    res.status(404).send('Property not found');
   }
 });
 
-app.put('/update-book/:index', (req, res) => {
-  const index = parseInt(req.params.index, 10);
-  const updatedBook = req.body;
-
-  if (index >= 0 && index < books.length) {
-    books[index] = updatedBook;
-    saveBook();
-    res.status(200).send('Book updated successfully');
+// Delete a property by index
+app.delete('/api/properties/:index', (req, res) => {
+  const { index } = req.params;
+  if (index >= 0 && index < db.properties.length) {
+    db.properties.splice(index, 1);
+    saveDatabase();
+    res.status(200).send('Property deleted successfully');
   } else {
-    res.status(404).send('Book not found');
+    res.status(404).send('Property not found');
   }
 });
 
@@ -143,7 +101,6 @@ app.get('/', (req, res) => {
 app.get('/detailProperty.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'detailProperty.html'));
 });
-
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
