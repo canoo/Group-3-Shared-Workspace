@@ -8,15 +8,10 @@
 </head>
 <body>
     <header>
-        <h1>Introduction to Web Programming</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="property.html">Properties</a></li>
-            </ul>
-        </nav>
-    </header>
- 
+        <h1>Workspaces</h1>         
+        <button onclick="contactus()">Contact us</button>  
+        <button onclick="logout()">Log Out</button>                
+    </header> 
     <div class="container">
         <h2>Property List</h2>
         <!-- Changed to an unordered list -->
@@ -90,12 +85,12 @@
     try {
         const response = await fetch('/api/properties');
         const properties = await response.json();
-
-        console.log('Properties fetched:', properties); // Verify the response structure
-
         const propertyList = document.getElementById('property-list');
         propertyList.innerHTML = '';
 
+        console.log('Properties fetched:', properties); // Verify the response structure
+
+       
         if (Array.isArray(properties.data)) {
             properties.data.forEach((property, index) => {
                 const listItem = document.createElement('li');
@@ -117,6 +112,20 @@
         alert('Error loading properties.');
     }
 }
+        //erika
+       /* app.get('/properties', (req, res) => {
+    const properties = /* logic to read properties from database.json ;
+    res.json(properties);
+        });*/
+       
+        function contactus() {        
+            window.location.href = 'contactus.html';
+        }
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userInfo');
+            window.location.href = 'index.html';
+        }
         document.addEventListener('DOMContentLoaded', fetchProperties);
         document.getElementById('current-year').textContent = new Date().getFullYear();
     </script>

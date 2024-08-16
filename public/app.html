@@ -1,9 +1,27 @@
-div class="container">
-
-        <h2>properties List</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workspace</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Workspaces</h1> 
+        <button onclick="home()">Home</button> 
+        <button onclick="cart()">Cart</button>          
+        <button onclick="contactus()">Contact us</button>
+        <button onclick="logout()">Log Out</button>                
+    </header>  
+    <div class="container">
+        <h2>Property List Found:</h2>
+            <!-- Changed to an unordered list -->
         <ul id="property-list"></ul>
+        <!--
+    </div>
 
-        <h1>Property</h1>
+        <h1>Properties:</h1>
         <form action="/add-property" method="POST">
             <input type="text" name="address" placeholder="Address" required>
             <input type="text" name="neighborhood" placeholder="Neighborhood" required>
@@ -19,12 +37,96 @@ div class="container">
             <input type="text" name="seats" placeholder="Seats" required>
             <input type="text" name="smoking" placeholder="Smoking" required>
             <button type="submit">Add Property</button>
-        </form>
+        </form>-->
+
         <footer>
             <p>&copy; Bow Valley College <span id="current-year"></span></p>
         </footer>     
 
 <script>
+    async function fetchProperties() {
+            try {
+                const response = await fetch('/api/properties');
+                const properties = await response.json();
+                const propertyList = document.getElementById('property-list');
+                propertyList.innerHTML = '';
+
+                properties.forEach((property, index) => {
+                    const listItem = document.createElement('li');
+
+                    const addressLink = document.createElement('a');
+                    addressLink.href = `/detailProperty.html?index=${index}`;
+                    addressLink.textContent = property.address;
+                    addressLink.style.display = 'block';
+                    
+                    listItem.appendChild(addressLink);
+                    listItem.innerHTML += `
+                        Neighborhood: ${property.neighborhood} <br>
+                        Parking: ${property.parking} <br>
+                        Transit: ${property.transit} <br>
+                        Workspace: ${property.workspace} <br>
+                        Type: ${property.type} <br>
+                        Price: ${property.price} <br>
+                        Availability: ${property.availability} <br>
+                        Availability Date: ${property.availabilityDate} <br>
+                        Lease Term: ${property.leaseTerm} <br>
+                        Sqft: ${property.sqft} <br>
+                        Seats: ${property.seats} <br>
+                        Smoking: ${property.smoking}
+                    `;
+
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = 'Delete';
+                    deleteButton.onclick = () => { deleteProperty(index) };
+                    listItem.appendChild(deleteButton);
+
+                    propertyList.appendChild(listItem);
+                });
+            } catch (error) {
+                console.error('Error fetching properties:', error);
+                alert('Error loading properties.');
+            }
+        }
+       
+
+        async function deleteProperty(id) {//changed idex for id
+            try {
+                const response = await fetch(`/delete-property/${index}`, { method: 'DELETE' });
+                if (response.ok) {
+                    alert('Property deleted successfully.');
+                    fetchProperties();
+                } else {
+                    alert("Failed to delete the property");
+                }
+            } catch (error) {
+                console.error('Error deleting property:', error);
+                alert('Error deleting property.');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchProperties);
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        function home() {
+            window.location.href = 'home.html';
+        }
+        function cart(){
+            window.location.href = ''
+        }
+
+        function contactus() {
+            window.location.href = 'contactus.html';
+        }
+
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userInfo');
+            window.location.href = 'index.html';
+        }  
+    </script>  
+</body>
+</html>    
+    <!--/* Code before 15-08
     async function fetchProperties() {
         const response = await fetch('/properties');
         const properties = await response.json()
@@ -63,12 +165,43 @@ div class="container">
     }
     document.addEventListener('DOMContentLoaded', fetchProperties)
     document.getElementById('current-year').textContent = new Date().getFullYear();
+        function contactus() {        
+            window.location.href ='home.html';
+        }
+        function contactus() {        
+            window.location.href = 'contactus.html';
+        }
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userInfo');
+            window.location.href = 'index.html';
+        }
 
-</script>
-    
- 
-</body>
-</html>
+        const addressLink = document.createElement('a');
+                addressLink.href = `/detailProperty.html?index=${index}`;
+                addressLink.textContent = property.address;
+                addressLink.style.display = 'block';
+                
+                listItem.appendChild(addressLink);
+                propertyList.appendChild(listItem);
+            });
+        } else {
+            console.error('Unexpected data format:', properties);
+        }
+    } catch (error) {
+        console.error('Error fetching properties:', error);
+        alert('Error loading properties.');
+    }*/
+    /*fetch('/properties')
+    .then(response => response.json())
+    .then(properties => {
+        // logic to display properties
+    })
+    .catch(error => console.error('Error fetching properties:', error));
+    app.get('/properties', (req, res) => {
+    const properties = /* logic to read properties from database.json 
+    res.json(properties);
+});/
 
 
 //paola Propiedades
@@ -118,5 +251,7 @@ app.delete('/delete-property/:index', (req, res) =>{
         res.status(404).send('property not found')
     }
 
-})
+})-->
+
+
 

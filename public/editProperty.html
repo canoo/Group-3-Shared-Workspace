@@ -8,14 +8,11 @@
 </head>
 <body>
     <header>
-        <h1>Introduction to Web Programming</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="property.html">Properties</a></li>
-            </ul>
-        </nav>
-    </header>
+       <h1>Workspaces</h1>
+       <button onclick="homeOwner()">Home</button>         
+       <button onclick="contactus()">Contact us</button>
+       <button onclick="logout()">Log Out</button>                
+</header>
     
     <div class="container">
         <h2>Edit Property</h2>
@@ -131,7 +128,17 @@
         document.getElementById('cancel-button').onclick = () => {
             window.location.href = `/property.html`;
         };
-
+        function homeOwner() {        
+            window.location.href = 'property.html';
+        }
+        function contactus() {        
+            window.location.href = 'contactus.html';
+        }
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userInfo');
+            window.location.href = 'index.html';
+        }
         document.addEventListener('DOMContentLoaded', fetchPropertyForEdit);
         document.getElementById('current-year').textContent = new Date().getFullYear();
 

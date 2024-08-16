@@ -7,11 +7,11 @@
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-    <nav>
-        <ul>                  
-            <a href="home.html">Home</a>                           
-        </ul>
-    </nav>
+    <header>
+        <h1>Workspaces</h1>         
+        <button onclick="home()">Home</button>
+        <button onclick="logout()">Log Out</button>                     
+    </header>     
     <h2>Contact Us</h2>
     <form id="contactForm">
         <label for="name">Full Name:</label><br>
@@ -67,6 +67,12 @@
                 alert('An error occurred. Please try again.');
             });
         });
+        function home() {        
+            window.location.href = 'home.html';
+        }
+        function logout() {        
+            window.location.href = 'index.html';
+        }
         document.getElementById('current-year').textContent = new Date().getFullYear();
 
     </script>
