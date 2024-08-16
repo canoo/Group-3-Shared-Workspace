@@ -25,13 +25,13 @@
       "transit": "Near subway",
       "workspace": "Available",
       "type": "Apartment",
-      "price": 1500,
+      "price": "1500",
       "availability": "Immediate",
       "availabilityDate": "2024-09-01",
       "leaseTerm": "12 months",
-      "sqft": 1200,
-      "seats": 5,
-      "smoking": false
+      "sqft": "1200",
+      "seats": "5",
+      "smoking": true
     }
   ]
 }

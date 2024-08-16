@@ -43,11 +43,14 @@
             }
  
             try {
+                console.log('Fetching property with index:', index);  // Debugging
                 const response = await fetch(`/api/properties/${index}`);
                 if (response.ok) {
                     const property = await response.json();
+                    console.log('Fetched property:', property);  // Debugging
                     displayPropertyDetails(property, index);
                 } else {
+                    console.error('Failed to fetch property:', response.statusText);  // Debugging
                     document.getElementById('property-details').innerHTML = 'Property not found.';
                 }
             } catch (error) {
@@ -59,24 +62,26 @@
         // Display the property details
         function displayPropertyDetails(property, index) {
             const detailsContainer = document.getElementById('property-details');
- 
-            const workspaceDetails = property.workspace.map(ws => `
-                <p><strong>Type:</strong> ${ws.type}</p>
-                <p><strong>Price:</strong> ${ws.price}</p>
-                <p><strong>Availability:</strong> ${ws.availability}</p>
-                <p><strong>Availability Date:</strong> ${new Date(ws.availabilityDate).toLocaleDateString()}</p>
-                <p><strong>Lease Term:</strong> ${ws.leaseTerm}</p>
-                <p><strong>Sqft:</strong> ${ws.sqft}</p>
-                <p><strong>Seats:</strong> ${ws.seats}</p>
-                <p><strong>Smoking:</strong> ${ws.smoking ? 'Yes' : 'No'}</p>
-            `).join('');
+            
+            // Adjust to handle `workspace` as a single string
+            const workspaceDetails = `
+                <p><strong>Workspace:</strong> ${property.workspace}</p>
+                <p><strong>Type:</strong> ${property.type}</p>
+                <p><strong>Price:</strong> ${property.price}</p>
+                <p><strong>Availability:</strong> ${property.availability}</p>
+                <p><strong>Availability Date:</strong> ${new Date(property.availabilityDate).toLocaleDateString()}</p>
+                <p><strong>Lease Term:</strong> ${property.leaseTerm}</p>
+                <p><strong>Sqft:</strong> ${property.sqft}</p>
+                <p><strong>Seats:</strong> ${property.seats}</p>
+                <p><strong>Smoking:</strong> ${property.smoking ? 'Yes' : 'No'}</p>
+            `;
  
             detailsContainer.innerHTML = `
                 <p><strong>Address:</strong> ${property.address}</p>
                 <p><strong>Neighborhood:</strong> ${property.neighborhood}</p>
                 <p><strong>Parking:</strong> ${property.parking ? 'Yes' : 'No'}</p>
                 <p><strong>Transit:</strong> ${property.transit ? 'Yes' : 'No'}</p>
-                <h3>Workspaces</h3>
+                <h3>Workspace Details</h3>
                 ${workspaceDetails}
             `;
  
@@ -95,12 +100,17 @@
  
         // Function to delete the property
         async function deleteProperty(index) {
-            const response = await fetch(`/api/properties/${index}`, { method: 'DELETE' });
-            if (response.ok) {
-                alert("Property deleted successfully.");
-                window.location.href = '/property.html';  // Redirect to the property list after deletion
-            } else {
-                alert("Failed to delete the property.");
+            try {
+                const response = await fetch(`/api/properties/${index}`, { method: 'DELETE' });
+                if (response.ok) {
+                    alert("Property deleted successfully.");
+                    window.location.href = '/property.html';  // Redirect to the property list after deletion
+                } else {
+                    alert("Failed to delete the property.");
+                }
+            } catch (error) {
+                console.error('Error deleting property:', error);
+                alert('Error deleting property.');
             }
         }
  
