@@ -13,6 +13,7 @@
             <ul>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="property.html">Properties</a></li>
+                <li><button onclick="logout()">Logout</button></li>   
             </ul>
         </nav>
     </header>
@@ -131,6 +132,12 @@
         document.getElementById('cancel-button').onclick = () => {
             window.location.href = `/property.html`;
         };
+
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userInfo');
+            window.location.href = 'index.html';
+        }
 
         document.addEventListener('DOMContentLoaded', fetchPropertyForEdit);
         document.getElementById('current-year').textContent = new Date().getFullYear();

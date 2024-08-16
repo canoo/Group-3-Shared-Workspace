@@ -16,117 +16,119 @@
         <button id="signupButton" onclick="showSignupForm()">Sign Up</button>
     </div>
 
-    <div id="loginForm" style="display: none;">
-        <h2>Login</h2>
-        <form id="loginFormElement">
-            <label for="loginUsername">Username:</label>
-            <input type="text" id="loginUsername" required><br>
-            <label for="loginPassword">Password:</label>
-            <input type="password" id="loginPassword" required><br>
-            <button type="submit">Login</button>
-        </form>
-    </div>
+        <div id="loginForm" style="display: none;">
+            <h2>Login</h2>
+            <form id="loginFormElement">
+                <label for="loginUsername">Username:</label>
+                <input type="text" id="loginUsername" required><br>
+                <label for="loginPassword">Password:</label>
+                <input type="password" id="loginPassword" required><br>
+                <button type="submit">Login</button>
+            </form>
+        </div>
 
-    <div id="signupForm" style="display: none;">
-        <h2>Sign Up</h2>
-        <form id="signupFormElement">
-            <label for="signupUsername">Username:</label>
-            <input type="text" id="signupUsername" required><br>
-            <label for="signupPassword">Password:</label>
-            <input type="password" id="signupPassword" required><br>
-            <label for="email">Email:</label>
-            <input type="email" id="email" required><br>
-            <label for="role">Role:</label>
-            <select id="role">
-                <option value="owner">Owner</option>
-                <option value="co-owner">Co-owner</option>
-            </select><br>
-            <label for="phone">Phone:</label>
-            <input type="tel" id="phone" required><br>
-            <label for="fullName">Full Name:</label>
-            <input type="text" id="fullName" required><br>
-            <button type="submit">Sign Up</button>
-        </form>
-    </div>
+        <div id="signupForm" style="display: none;">
+            <h2>Sign Up</h2>
+            <form id="signupFormElement">
+                <label for="signupUsername">Username:</label>
+                <input type="text" id="signupUsername" required><br>
+                <label for="signupPassword">Password:</label>
+                <input type="password" id="signupPassword" required><br>
+                <label for="email">Email:</label>
+                <input type="email" id="email" required><br>
+                <label for="role">Role:</label>
+                <select id="role">
+                    <option value="owner">Owner</option>
+                    <option value="co-owner">Co-owner</option>
+                </select><br>
+                <label for="phone">Phone:</label>
+                <input type="tel" id="phone" required><br>
+                <label for="fullName">Full Name:</label>
+                <input type="text" id="fullName" required><br>
+                <button type="submit">Sign Up</button>
+            </form>
+        </div>
+    
+        <script>
+            // Show and hide forms
+            function showLoginForm() {
+                document.getElementById("loginForm").style.display = "block";
+                document.getElementById("signupForm").style.display = "none";
+            }
+
+            function showSignupForm() {
+                document.getElementById("loginForm").style.display = "none";
+                document.getElementById("signupForm").style.display = "block";
+            }
+
+            // Handle signup form submission
+            document.getElementById("signupFormElement").addEventListener("submit", function(event) {
+                event.preventDefault();
+
+                const user = {
+                    username: document.getElementById("signupUsername").value,
+                    password: document.getElementById("signupPassword").value,
+                    email: document.getElementById("email").value,
+                    role: document.getElementById("role").value,
+                    phone: document.getElementById("phone").value,
+                    fullName: document.getElementById("fullName").value
+                };
+
+                fetch("../api/users", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(user)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                    alert('Signup successful! You can now log in.');
+                    showLoginForm(); // Show login form after signup
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again.');
+                });
+            });
+
+            // Handle login form submission
+            document.getElementById("loginFormElement").addEventListener("submit", function(event) {
+                event.preventDefault();
+
+                const username = document.getElementById("loginUsername").value;
+                const password = document.getElementById("loginPassword").value;
+
+                // Check credentials
+                fetch("../api/users")
+                .then(response => response.json())
+                .then(data => {
+                    const user = data.data.find(user => user.username === username && user.password === password);
+
+                    if (user) {
+                        if (user.role === "owner") {
+                            window.location.href = "property.html"; // Redirect to property.html for owners
+                        } else if (user.role === "co-owner") {
+                            window.location.href = "home.html"; // Redirect to home.html for co-owners
+                        }
+                    } else {
+                        alert('Invalid username or password');
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again.');
+                });
+            });
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        </script>
+
+    </main>
 
     <footer>
         <p>&copy; Bow Valley College <span id="current-year"></span></p>
-    </footer>   
-
-    <script>
-        // Show and hide forms
-        function showLoginForm() {
-            document.getElementById("loginForm").style.display = "block";
-            document.getElementById("signupForm").style.display = "none";
-        }
-
-        function showSignupForm() {
-            document.getElementById("loginForm").style.display = "none";
-            document.getElementById("signupForm").style.display = "block";
-        }
-
-        // Handle signup form submission
-        document.getElementById("signupFormElement").addEventListener("submit", function(event) {
-            event.preventDefault();
-
-            const user = {
-                username: document.getElementById("signupUsername").value,
-                password: document.getElementById("signupPassword").value,
-                email: document.getElementById("email").value,
-                role: document.getElementById("role").value,
-                phone: document.getElementById("phone").value,
-                fullName: document.getElementById("fullName").value
-            };
-
-            fetch("../api/users", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(user)
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-                alert('Signup successful! You can now log in.');
-                showLoginForm(); // Show login form after signup
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                alert('An error occurred. Please try again.');
-            });
-        });
-
-        // Handle login form submission
-        document.getElementById("loginFormElement").addEventListener("submit", function(event) {
-            event.preventDefault();
-
-            const username = document.getElementById("loginUsername").value;
-            const password = document.getElementById("loginPassword").value;
-
-            // Check credentials
-            fetch("../api/users")
-            .then(response => response.json())
-            .then(data => {
-                const user = data.data.find(user => user.username === username && user.password === password);
-
-                if (user) {
-                    if (user.role === "owner") {
-                        window.location.href = "property.html"; // Redirect to property.html for owners
-                    } else if (user.role === "co-owner") {
-                        window.location.href = "home.html"; // Redirect to home.html for co-owners
-                    }
-                } else {
-                    alert('Invalid username or password');
-                }
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                alert('An error occurred. Please try again.');
-            });
-        });
-        document.getElementById('current-year').textContent = new Date().getFullYear();
-
-    </script>
+    </footer> 
 </body>
 </html>
