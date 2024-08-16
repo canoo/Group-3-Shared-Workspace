@@ -7,23 +7,14 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <main>
+    <header>
+    <h1 id="A">Shared Workspaces</h1>
+    </header>  
 
-        <header>
-            <h1>Shared Workspaces</h1>
-            <nav>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                </ul>
-            </nav>
-        </header>
-
-        <img id="img-1" src="img/img1.jpg" alt="img1"> 
-
-        <div class="login-button">
-            <button id="loginButton" onclick="showLoginForm()">Login</button>
-            <button id="signupButton" onclick="showSignupForm()">Sign Up</button>
-        </div>
+    <div>
+        <button id="loginButton" onclick="showLoginForm()">Login</button>
+        <button id="signupButton" onclick="showSignupForm()">Sign Up</button>
+    </div>
 
         <div id="loginForm" style="display: none;">
             <h2>Login</h2>
@@ -130,6 +121,8 @@
                     alert('An error occurred. Please try again.');
                 });
             });
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
         </script>
 
     </main>

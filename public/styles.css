@@ -194,3 +194,50 @@ footer {
   position: sticky;
   bottom: 0;
 }
+
+#A{ 
+  text-align: center;
+  color: white;  
+  
+}
+
+
+/*for property cards*/
+
+
+.property-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.property-image {
+  width: 150px;  /* Adjust the width of the image */
+  height: 100px; /* Adjust the height of the image */
+  object-fit: cover; /* Ensure the image covers the area without distortion */
+  margin-right: 15px; /* Space between the image and text */
+  border-radius: 8px; /* Rounded corners */
+}
+
+.property-address {
+  font-size: 18px;
+  color: #333;
+  text-decoration: none;
+}
+
+.property-address:hover {
+  text-decoration: underline;
+}
+.property-item:hover {
+  background-color: #e0f7fa;
+  transition: background-color 0.3s ease;
+}
+
+.property-image:hover {
+  transform: scale(1.50);
+  transition: transform 0.3s ease;
+}

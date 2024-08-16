@@ -39,126 +39,155 @@
     </style>
 </head>
 <body>
-
-    <main>
-        
-        <header>
-            <h1>Shared Workspaces</h1>
-            <nav>
-                <ul>
-                    <li><a href="home.html">Home</a></li>
-                    <li><a href="contactus.html">Contact us</a></li>
-                    <li><button class="logoutButton" onclick="logout()">Logout</button></li>
-                </ul>
-            </nav>
-        </header>
-
-        <img id="img-1" src="img/img1.jpg" alt="img1"> 
-
-        <h1 class="subTittle">Workspaces</h1>
-      
-        <div class="topnav">
-            <p>Property Search</p>
-            <input type="text" id="search" placeholder="Search..">
-        </div>
-
-        <div class="container">
-            <h2>Property List</h2>
-            <table id="property-table">
-                <thead>
-                    <tr>
-                        <th onclick="sortTable(0)">Address</th>
-                        <th onclick="sortTable(1)">Price</th>
-                        <th onclick="sortTable(2)">Seats</th>
-                        <th onclick="sortTable(3)">Availability</th>
-                        <th>Actions</th> <!-- New column for actions -->
-                    </tr>
-                </thead>
-                <tbody id="property-list"></tbody>
-            </table>
-        </div>
-
-        <script>
-            async function fetchProperties() {
-                try {
-                    const response = await fetch('/api/properties');
-                    const result = await response.json();
-                    
-                    console.log('Raw response data:', result); // Verifica la estructura de datos
-
-                    const properties = result.data || []; // Accede a 'data' que contiene el array de propiedades
-                    updateTable(properties);
-                } catch (error) {
-                    console.error('Error fetching properties:', error);
-                    alert('Error loading properties.');
-                }
-            }
-
-            function updateTable(properties) {
-                const propertyList = document.getElementById('property-list');
-                propertyList.innerHTML = '';
-
-                properties.forEach((property, index) => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${property.address || 'N/A'}</td>
-                        <td>${property.price || 'N/A'}</td>
-                        <td>${property.seats || 'N/A'}</td>
-                        <td>${property.availability || 'N/A'}</td>
-                        <td><button class="rent-button" onclick="viewDetails(${index})">Rent</button></td>
-                    `;
-                    propertyList.appendChild(row);
-                });
-            }
-
-            function viewDetails(index) {
-                window.location.href = `detalles.html?index=${index}`;
-            }
-
-            function sortTable(columnIndex) {
-                const table = document.getElementById('property-table');
-                const rows = Array.from(table.querySelectorAll('tbody tr'));
-                const isAscending = table.querySelector(`th:nth-child(${columnIndex + 1})`).classList.toggle('asc');
-
-                rows.sort((rowA, rowB) => {
-                    const cellA = rowA.children[columnIndex].textContent.trim();
-                    const cellB = rowB.children[columnIndex].textContent.trim();
-
-                    const valueA = isNaN(cellA) ? cellA : parseFloat(cellA);
-                    const valueB = isNaN(cellB) ? cellB : parseFloat(cellB);
-
-                    if (valueA < valueB) return isAscending ? -1 : 1;
-                    if (valueA > valueB) return isAscending ? 1 : -1;
-                    return 0;
-                });
-
-                rows.forEach(row => table.querySelector('tbody').appendChild(row));
-            }
-
-            function logout() {
-                localStorage.removeItem('authToken');
-                localStorage.removeItem('userInfo');
-                window.location.href = 'index.html';
-            }
-
-            document.getElementById('search').addEventListener('input', function() {
-                const filter = this.value.toLowerCase();
-                const rows = document.querySelectorAll('#property-list tr');
-
-                rows.forEach(row => {
-                    const text = row.textContent.toLowerCase();
-                    row.style.display = text.includes(filter) ? '' : 'none';
-                });
-            });
-
-            document.addEventListener('DOMContentLoaded', fetchProperties);
-            document.getElementById('current-year').textContent = new Date().getFullYear();
-        </script>
-    </main>
-
+    <header id="A">
+        <nav>
+            <ul>
+                <li><a href="contactus.html">Contact us</a></li>
+                <li><button onclick="logout()">Logout</button></li>
+            </ul>
+        </nav>
+    </header>
+   
+    <h1>Workspaces</h1>
+    <img id="img-1" src="img1.jpg" alt="img1">
+   
+    <div class="topnav">
+        <input type="text" id="search-bar" placeholder="Search by address or neighborhood...">
+        <input type="number" id="sqft-filter" placeholder="Minimum Square Feet">
+        <select id="parking-filter">
+            <option value="">Parking</option>
+            <option value="Yes">With Parking</option>
+            <option value="No">Without Parking</option>
+        </select>
+        <select id="transit-filter">
+            <option value="">Public Transit</option>
+            <option value="Yes">With Transit</option>
+            <option value="No">Without Transit</option>
+        </select>
+        <input type="number" id="seats-filter" placeholder="Minimum Seats">
+        <select id="smoking-filter">
+            <option value="">Smoking</option>
+            <option value="Yes">Smoking Allowed</option>
+            <option value="No">No Smoking</option>
+        </select>
+        <input type="date" id="availability-filter" placeholder="Availability Date">
+        <input type="number" id="lease-term-filter" placeholder="Minimum Lease Term (months)">
+        <select id="price-filter">
+            <option value="">All Prices</option>
+            <option value="low">Less than $1000</option>
+            <option value="mid">Between $1000 and $2000</option>
+            <option value="high">More than $2000</option>
+        </select>
+        <button onclick="applyFilters()">Apply Filters</button>
+    </div>
+    
+    <div id="property-list" class="container">
+        <!-- Properties will be dynamically inserted here -->
+    </div>
+    
     <footer>
         <p>&copy; Bow Valley College <span id="current-year"></span></p>
     </footer>
+   
+    <script>
+        // Logout function
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userInfo');
+            window.location.href = 'index.html';
+        }
 
+        // Function to fetch and display properties
+        async function fetchProperties() {
+            try {
+                const response = await fetch('/api/properties');
+                const properties = await response.json();
+
+                console.log('Fetched properties:', properties);  // Debugging line
+
+                displayProperties(properties.data);
+            } catch (error) {
+                console.error('Error fetching properties:', error);
+                alert('Error loading properties.');
+            }
+        }
+
+        function displayProperties(properties) {
+            const propertyList = document.getElementById('property-list');
+            const searchQuery = document.getElementById('search-bar').value.toLowerCase();
+            const sqftFilter = document.getElementById('sqft-filter').value;
+            const parkingFilter = document.getElementById('parking-filter').value;
+            const transitFilter = document.getElementById('transit-filter').value;
+            const seatsFilter = document.getElementById('seats-filter').value;
+            const smokingFilter = document.getElementById('smoking-filter').value;
+            const availabilityFilter = document.getElementById('availability-filter').value;
+            const leaseTermFilter = document.getElementById('lease-term-filter').value;
+            const priceFilter = document.getElementById('price-filter').value;
+
+            propertyList.innerHTML = '';
+
+            properties
+                .filter(property => {
+                    const matchesSearch = property.address.toLowerCase().includes(searchQuery) ||
+                                          property.neighborhood.toLowerCase().includes(searchQuery);
+
+                    const matchesSqft = !sqftFilter || property.sqft >= parseInt(sqftFilter);
+                    const matchesParking = !parkingFilter || property.parking === parkingFilter;
+                    const matchesTransit = !transitFilter || property.transit === transitFilter;
+                    const matchesSeats = !seatsFilter || property.seats >= parseInt(seatsFilter);
+                    const matchesSmoking = !smokingFilter || (smokingFilter === "Yes" ? property.smoking : !property.smoking);
+
+                    let matchesAvailability = true;
+                    if (availabilityFilter) {
+                        const availabilityDate = new Date(property.availabilityDate);
+                        const filterDate = new Date(availabilityFilter);
+                        matchesAvailability = availabilityDate >= filterDate;
+                    }
+
+                    const matchesLeaseTerm = !leaseTermFilter || property.leaseTerm >= parseInt(leaseTermFilter);
+
+                    let matchesPrice = true;
+                    if (priceFilter === 'low') {
+                        matchesPrice = property.price < 1000;
+                    } else if (priceFilter === 'mid') {
+                        matchesPrice = property.price >= 1000 && property.price <= 2000;
+                    } else if (priceFilter === 'high') {
+                        matchesPrice = property.price > 2000;
+                    }
+
+                    return matchesSearch && matchesSqft && matchesParking && matchesTransit &&
+                           matchesSeats && matchesSmoking && matchesAvailability &&
+                           matchesLeaseTerm && matchesPrice;
+                })
+                .forEach((property, index) => {
+                    console.log('Processing property:', property);  // Debugging line
+
+                    const listItem = document.createElement('div');
+                    listItem.className = 'property-item';
+                    
+                    const propertyImage = document.createElement('img');
+                    propertyImage.src = property.imageUrl;
+                    propertyImage.alt = property.address;
+                    propertyImage.className = 'property-image';
+
+                    const addressLink = document.createElement('a');
+                    addressLink.href = `/propertyView.html?index=${index}`;
+                    addressLink.textContent = property.address;
+                    addressLink.className = 'property-address';
+
+                    listItem.appendChild(propertyImage);
+                    listItem.appendChild(addressLink);
+                    propertyList.appendChild(listItem);
+                });
+        }
+
+        function applyFilters() {
+            fetchProperties();
+        }
+
+        // Load properties on page load
+        document.addEventListener('DOMContentLoaded', fetchProperties);
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>

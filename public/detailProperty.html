@@ -64,20 +64,20 @@
         function displayPropertyDetails(property, index) {
             const detailsContainer = document.getElementById('property-details');
             
-            // Adjust to handle `workspace` as a single string
             const workspaceDetails = `
                 <p><strong>Workspace:</strong> ${property.workspace}</p>
                 <p><strong>Type:</strong> ${property.type}</p>
-                <p><strong>Price:</strong> ${property.price}</p>
+                <p><strong>Price:</strong> $${property.price}</p>
                 <p><strong>Availability:</strong> ${property.availability}</p>
                 <p><strong>Availability Date:</strong> ${new Date(property.availabilityDate).toLocaleDateString()}</p>
-                <p><strong>Lease Term:</strong> ${property.leaseTerm}</p>
-                <p><strong>Sqft:</strong> ${property.sqft}</p>
+                <p><strong>Lease Term:</strong> ${property.leaseTerm} months</p>
+                <p><strong>Sqft:</strong> ${property.sqft} sqft</p>
                 <p><strong>Seats:</strong> ${property.seats}</p>
                 <p><strong>Smoking:</strong> ${property.smoking ? 'Yes' : 'No'}</p>
             `;
  
             detailsContainer.innerHTML = `
+                <img src="${property.imageUrl}" alt="${property.address}" class="property-image">
                 <p><strong>Address:</strong> ${property.address}</p>
                 <p><strong>Neighborhood:</strong> ${property.neighborhood}</p>
                 <p><strong>Parking:</strong> ${property.parking ? 'Yes' : 'No'}</p>
