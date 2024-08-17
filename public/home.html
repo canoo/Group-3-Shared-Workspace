@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Workspace</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Workspaces</h1>
+           <button onclick="cart()">Cart</button>         
+           <button onclick="contactus()">Contact us</button>
+           <button onclick="logout()">Log Out</button>                           
+    </header>        
+    <div>
+        <h2>"Unlock Your Ideal Workspace—Find, Rent, Thrive!"</h2>
+    </div>
+    <div class="topnav">        
+        <input type="text" id="search-input"placeholder="Search..">
+        <button onclick="searchProperties()">Search</button>
+    </div>
+    <div>
+        <p><h3>This workspace page is designed with user convenience and efficiency in mind. It features intuitive search and filter options that allow users
+         to quickly find properties and workspaces tailored to their needs. The seamless navigation, coupled with clear listings and detailed property 
+         descriptions, ensures users have all the necessary information at their fingertips. The page's responsive design and streamlined interface make
+         it easy to use on any device, ensuring a smooth and satisfying experience, whether you're browsing, booking, or managing workspaces.</h3></p>
+    </div>
+    <footer>
+        <p>&copy; Bow Valley College <span id="current-year"></span></p>
+    </footer>   
+      <script>
+        function searchProperties() {
+            window.location.href = 'app.html?search=' + encodeURIComponent(document.getElementById('search-input').value);
+        }
+        function cart(){
+            window.location.href = ''
+        }
+
+        function contactus() {        
+            window.location.href = 'contactus.html';
+        }
+        function listProperty(){    
+            window.location.href='app.html';
+        }
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userInfo');
+            window.location.href = 'index.html';
+        }
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

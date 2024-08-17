@@ -1,0 +1,22 @@
+{
+  "name": "group-3-shared-workspace",
+  "version": "1.0.0",
+  "description": "# Running Application ```bash npm start ``` # In dev mode ```bash npm run dev ```",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+ 
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^8.2.2",
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
