@@ -32,7 +32,7 @@
       "sqft": 1200,
       "seats": 5,
       "smoking": false,
-      "imageUrl": "images/property1.jpg"  
+      "imageUrl": "images/property1.jpg"
     },
     {
       "address": "456 Oak St",
@@ -48,7 +48,7 @@
       "sqft": 1800,
       "seats": 7,
       "smoking": true,
-      "imageUrl": "images/property2.jpg" 
+      "imageUrl": "images/property2.jpg"
     }
   ]
 }

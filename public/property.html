@@ -28,12 +28,24 @@
         <form id="add-form">
             <input type="text" id="address" placeholder="Address" required>
             <input type="text" id="neighborhood" placeholder="Neighborhood" required>
-            <input type="text" id="parking" placeholder="Parking" required>
-            <input type="text" id="transit" placeholder="Transit" required>
-            <input type="text" id="workspace" placeholder="Workspace" required>
-            <input type="text" id="type" placeholder="Type" required>
+            <input type="checkbox" id="parking"> Parking
+            <input type="checkbox" id="transit"> Transit
+            <select id="workspace" required>
+                <option value="" disabled selected>Select Workspace</option>
+                <option value="Office">Office</option>
+                <option value="Workspace">Workspace</option>
+            </select>
+            <select id="type" required>
+                <option value="" disabled selected>Select Type</option>
+                <option value="House">House</option>
+                <option value="Apartment">Apartment</option>
+            </select>   
             <input type="number" id="price" placeholder="Price" required>
-            <input type="text" id="availability" placeholder="Availability" required>
+            <select id="availability" required>
+                <option value="" disabled selected>Select Availability</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
             <input type="date" id="availabilityDate" placeholder="Availability Date" required>
             <input type="text" id="leaseTerm" placeholder="Lease Term" required>
             <input type="number" id="sqft" placeholder="Sqft" required>
@@ -60,8 +72,8 @@
             const newProperty = {
                 address: document.getElementById('address').value,
                 neighborhood: document.getElementById('neighborhood').value,
-                parking: document.getElementById('parking').value,
-                transit: document.getElementById('transit').value,
+                parking: document.getElementById('parking').checked,
+                transit: document.getElementById('transit').checked,
                 workspace: document.getElementById('workspace').value,
                 type: document.getElementById('type').value,
                 price: parseFloat(document.getElementById('price').value),  // Convert to number
