@@ -36,6 +36,12 @@
         .rent-button:hover {
             background-color: #45a049; /* Darker green */
         }
+        #navPic {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body>
@@ -49,24 +55,24 @@
     </header>
    
     <h1>Workspaces</h1>
-    <img id="img-1" src="C:\Users\16043\New folder (2)\New folder\Group-3-Shared-Workspace\public\img\img1.jpg" alt="img1">
+    <img id="navPic" src="images/navPic.jpg" alt="Nav Picture">
    
     <div class="topnav">
         <input type="text" id="search-bar" placeholder="Search by address or neighborhood...">
         <input type="number" id="sqft-filter" placeholder="Minimum Square Feet">
         <select id="parking-filter">
-            <option value="">Parking</option>
+            <option value="" disabled selected>Parking</option>
             <option value="Yes">With Parking</option>
             <option value="No">Without Parking</option>
         </select>
         <select id="transit-filter">
-            <option value="">Public Transit</option>
+            <option value=""disabled selected>Public Transit</option>
             <option value="Yes">With Transit</option>
             <option value="No">Without Transit</option>
         </select>
         <input type="number" id="seats-filter" placeholder="Minimum Seats">
         <select id="smoking-filter">
-            <option value="">Smoking</option>
+            <option value=""disabled selected>Smoking</option>
             <option value="Yes">Smoking Allowed</option>
             <option value="No">No Smoking</option>
         </select>

@@ -13,5 +13,15 @@ npm start
 ```bash
 npm run dev
 ```
+### Logging in as Admin
 
+#### Username
+admin
+#### Password
+password
+### Logging in as Co-owner
 
+#### Username
+co-owner
+#### Password
+password

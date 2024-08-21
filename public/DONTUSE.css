@@ -1,0 +1,243 @@
+/* styles.css */
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;  
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ensure smooth scrolling */
+html{
+  scroll-behavior: smooth;}
+
+/* Ensure main takes up available space */
+main {
+  flex: 1; 
+}
+
+/* MENU */
+header {
+  background-color: #336666;
+  color: white;
+  padding: 10px 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+header h1 {
+  color: white;
+}
+
+header nav {
+  display: flex;
+  justify-content: center;
+}
+
+header nav ul {
+  list-style-type: none; 
+  padding: 0;
+  margin: 0;
+}
+
+header nav ul li {
+  display: inline-block; /* center elements */
+  margin-right: 20px; 
+  
+}
+
+header nav ul li a {
+  text-transform: uppercase; 
+  text-decoration: none; 
+  color: white; 
+  padding: 10px; 
+  border-bottom: 2px solid white; 
+  transition: background-color 0.3s, color 0.3s; 
+}
+
+header nav ul li a:hover {
+  background-color: white; 
+  color: green; 
+}
+/* end MENU */
+
+/* BANNER INDEX PAG */
+#img-1{
+  width: 100%; 
+  height: 40vh; /* (viewport) */
+  object-fit: cover;
+}
+
+/* Index Button and Form */
+.login-button {
+  display: flex;
+  justify-content: center;
+  }
+
+  #loginForm, #signupForm {
+    width: 500px; /* Fija el ancho a 500px */
+    margin: 40px auto; /* Agrega 40px de margen arriba y abajo, y centra horizontalmente */
+    padding: 20px; /* Añade espacio interno */
+    background-color: #ffffff; /* Color de fondo */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Añade sombra */
+    border-radius: 8px; /* Añade esquinas redondeadas */
+  }
+  /* Estilos uniformes para todos los campos de formulario */
+      #loginForm input[type="text"],
+      #loginForm input[type="password"],
+      #signupForm input[type="text"],
+      #signupForm input[type="password"],
+      #signupForm input[type="email"],
+      #signupForm input[type="tel"],
+      #signupForm select {
+      width: 100%; /* Los campos ocuparán todo el ancho disponible dentro del div */
+      padding: 10px; /* Espacio interno */
+      margin: 10px 0; /* Espaciado vertical entre los campos */
+      border: 1px solid #ccc; /* Borde uniforme */
+      border-radius: 4px; /* Esquinas redondeadas */
+      box-sizing: border-box; /* Asegura que el padding y el border se incluyan en el ancho y alto totales */
+      font-size: 16px; /* Tamaño de fuente uniforme */
+    }
+
+/* SubTitulo de paginas internas */
+.subTittle {
+ color: #1a5e63;
+ text-align: center;
+}
+
+/* Buscador */
+.topnav {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: stretch;
+    justify-content: flex-end;
+    margin-right: 100px;
+}
+
+.topnav p{
+  color: #1a5e63;
+  text-align: center;
+  margin-right: 10px;
+}
+
+.container {
+  width: 100%;
+  max-width: 800px;
+  padding: 20px;
+  background-color: white;
+  margin: 40px auto; /* Centra el contenedor horizontalmente */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 8px;
+}
+
+#property-details p{
+  display: table-row-group;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+input[type="text"] {
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #1a5e63;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-right: 10px;
+  width: 150px; 
+  height: 40px;
+  
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+/* Footer */
+footer {
+  background-color: #336666;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+  width: 100%;
+  position: sticky;
+  bottom: 0;
+}
+
+#A{ 
+  text-align: center;
+  color: white;  
+  
+}
+
+
+/*for property cards*/
+
+
+.property-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.property-image {
+  width: 150px;  /* Adjust the width of the image */
+  height: 100px; /* Adjust the height of the image */
+  object-fit: cover; /* Ensure the image covers the area without distortion */
+  margin-right: 15px; /* Space between the image and text */
+  border-radius: 8px; /* Rounded corners */
+}
+
+.property-address {
+  font-size: 18px;
+  color: #333;
+  text-decoration: none;
+}
+
+.property-address:hover {
+  text-decoration: underline;
+}
+.property-item:hover {
+  background-color: #e0f7fa;
+  transition: background-color 0.3s ease;
+}
+
+.property-image:hover {
+  transform: scale(1.50);
+  transition: transform 0.3s ease;
+}

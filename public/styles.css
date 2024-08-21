@@ -1,243 +1,309 @@
-/* styles.css */
-
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
+/* Basic reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
-
+ 
+/* Body styling */
 body {
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  background-color: #f5f5f5;
-  margin: 0;
-  padding: 0;  
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    background-color: #f4f4f4;
+    line-height: 1.6;
+    padding: 20px;
 }
-
-/* Ensure smooth scrolling */
-html{
-  scroll-behavior: smooth;}
-
-/* Ensure main takes up available space */
-main {
-  flex: 1; 
-}
-
-/* MENU */
+ 
+/* Header styling */
 header {
-  background-color: #336666;
-  color: white;
-  padding: 10px 0;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+    background-color: #1A5E63; /* Teal green */
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    margin-bottom: 20px;
 }
-
+ 
 header h1 {
-  color: white;
+    font-size: 28px;
+    margin-bottom: 10px;
 }
-
-header nav {
-  display: flex;
-  justify-content: center;
+ 
+nav ul {
+    list-style: none;
+    padding: 0;
 }
-
-header nav ul {
-  list-style-type: none; 
-  padding: 0;
-  margin: 0;
+ 
+nav ul li {
+    display: inline;
+    margin-right: 15px;
 }
-
-header nav ul li {
-  display: inline-block; /* center elements */
-  margin-right: 20px; 
-  
+ 
+nav ul li a,
+nav ul li button {
+    color: #fff;
+    text-decoration: none;
+    background-color: #F38124; /* Bright orange */
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
-
-header nav ul li a {
-  text-transform: uppercase; 
-  text-decoration: none; 
-  color: white; 
-  padding: 10px; 
-  border-bottom: 2px solid white; 
-  transition: background-color 0.3s, color 0.3s; 
+ 
+nav ul li a:hover,
+nav ul li button:hover {
+    background-color: #d96a1b; /* Slightly darker orange */
 }
-
-header nav ul li a:hover {
-  background-color: white; 
-  color: green; 
-}
-/* end MENU */
-
-/* BANNER INDEX PAG */
-#img-1{
-  width: 100%; 
-  height: 40vh; /* (viewport) */
-  object-fit: cover;
-}
-
-/* Index Button and Form */
-.login-button {
-  display: flex;
-  justify-content: center;
-  }
-
-  #loginForm, #signupForm {
-    width: 500px; /* Fija el ancho a 500px */
-    margin: 40px auto; /* Agrega 40px de margen arriba y abajo, y centra horizontalmente */
-    padding: 20px; /* Añade espacio interno */
-    background-color: #ffffff; /* Color de fondo */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Añade sombra */
-    border-radius: 8px; /* Añade esquinas redondeadas */
-  }
-  /* Estilos uniformes para todos los campos de formulario */
-      #loginForm input[type="text"],
-      #loginForm input[type="password"],
-      #signupForm input[type="text"],
-      #signupForm input[type="password"],
-      #signupForm input[type="email"],
-      #signupForm input[type="tel"],
-      #signupForm select {
-      width: 100%; /* Los campos ocuparán todo el ancho disponible dentro del div */
-      padding: 10px; /* Espacio interno */
-      margin: 10px 0; /* Espaciado vertical entre los campos */
-      border: 1px solid #ccc; /* Borde uniforme */
-      border-radius: 4px; /* Esquinas redondeadas */
-      box-sizing: border-box; /* Asegura que el padding y el border se incluyan en el ancho y alto totales */
-      font-size: 16px; /* Tamaño de fuente uniforme */
-    }
-
-/* SubTitulo de paginas internas */
-.subTittle {
- color: #1a5e63;
- text-align: center;
-}
-
-/* Buscador */
-.topnav {
-    display: flex;
-    flex-wrap: wrap;
-    align-content: stretch;
-    justify-content: flex-end;
-    margin-right: 100px;
-}
-
-.topnav p{
-  color: #1a5e63;
-  text-align: center;
-  margin-right: 10px;
-}
-
+ 
+/* Container styling */
 .container {
-  width: 100%;
-  max-width: 800px;
-  padding: 20px;
-  background-color: white;
-  margin: 40px auto; /* Centra el contenedor horizontalmente */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-radius: 8px;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-
-#property-details p{
-  display: table-row-group;
+ 
+/* Property Details styling */
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
 }
-
-form {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
-  text-align: center;
+ 
+#property-details {
+    margin-bottom: 20px;
 }
-
-input[type="text"] {
-  padding: 10px;
-  margin: 5px 0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+ 
+#property-details p {
+    font-size: 18px;
+    margin-bottom: 10px;
 }
-
-button {
-  padding: 10px;
-  border: none;
-  border-radius: 4px;
-  background-color: #1a5e63;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  margin-right: 10px;
-  width: 150px; 
-  height: 40px;
-  
+ 
+h3 {
+    font-size: 22px;
+    margin-top: 20px;
+    color: #1A5E63; /* Teal green */
 }
-
-button:hover {
-  background-color: #45a049;
+ 
+/* Buttons styling */
+#edit-button,
+#delete-button {
+    width: 48%;
+    padding: 15px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
 }
-
-/* Footer */
+ 
+#edit-button {
+    background-color: #1A5E63; /* Teal green */
+    color: #fff;
+    margin-right: 4%;
+}
+ 
+#edit-button:hover {
+    background-color: #154a4f; /* Darker teal green */
+}
+ 
+#delete-button {
+    background-color: #FF4C4C;
+    color: #fff;
+}
+ 
+#delete-button:hover {
+    background-color: #d63333;
+}
+ 
+/* Footer styling */
 footer {
-  background-color: #336666;
-  color: white;
-  text-align: center;
-  padding: 10px 0;
-  width: 100%;
-  position: sticky;
-  bottom: 0;
+    text-align: center;
+    margin-top: 20px;
+    padding: 10px 0;
+    background-color: #1A5E63; /* Teal green */
+    color: #fff;
+    border-radius: 5px;
+}
+ 
+footer p {
+    margin: 0;
+}
+ 
+#current-year {
+    font-weight: bold;
+}
+ 
+/* Rent button styling */
+#rent-button {
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #F38124; /* Bright orange */
+    color: #fff;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+ 
+#rent-button:hover {
+    background-color: #d96a1b; /* Slightly darker orange */
+}
+ 
+/* Form container */
+.form-container {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 400px;
+    margin: 0 auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+ 
+.form-container h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    text-align: center;
+    color: #333;
+}
+ 
+.form-container label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+ 
+.form-container input,
+.form-container select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+ 
+.form-container button[type="submit"] {
+    width: 100%;
+    background-color: #1A5E63; /* Teal green */
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+ 
+.form-container button[type="submit"]:hover {
+    background-color: #154a4f; /* Darker teal green */
+}
+ 
+/* Cancel button styling */
+#cancel-button {
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #FF4C4C;
+    color: #fff;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+ 
+#cancel-button:hover {
+    background-color: #d63333;
+}
+ 
+/* Header navigation */
+header nav ul {
+    list-style: none;
+    padding: 0;
+    text-align: right;
+}
+ 
+header nav ul li {
+    display: inline;
+    margin-right: 15px;
+}
+ 
+header nav ul li a,
+header nav ul li button {
+    color: #fff;
+    text-decoration: none;
+    background-color: #F38124; /* Bright orange */
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+ 
+header nav ul li a:hover,
+header nav ul li button:hover {
+    background-color: #d96a1b; /* Slightly darker orange */
+}
+ 
+/* Footer styling */
+footer {
+    margin-top: auto;
+    background-color: #1A5E63; /* Teal green */
+    color: white;
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
 }
 
-#A{ 
-  text-align: center;
-  color: white;  
-  
-}
 
 
 /*for property cards*/
 
 
 .property-item {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-}
-
-.property-image {
-  width: 150px;  /* Adjust the width of the image */
-  height: 100px; /* Adjust the height of the image */
-  object-fit: cover; /* Ensure the image covers the area without distortion */
-  margin-right: 15px; /* Space between the image and text */
-  border-radius: 8px; /* Rounded corners */
-}
-
-.property-address {
-  font-size: 18px;
-  color: #333;
-  text-decoration: none;
-}
-
-.property-address:hover {
-  text-decoration: underline;
-}
-.property-item:hover {
-  background-color: #e0f7fa;
-  transition: background-color 0.3s ease;
-}
-
-.property-image:hover {
-  transform: scale(1.50);
-  transition: transform 0.3s ease;
-}
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+  
+  .property-image {
+    width: 150px;  /* Adjust the width of the image */
+    height: 100px; /* Adjust the height of the image */
+    object-fit: cover; /* Ensure the image covers the area without distortion */
+    margin-right: 15px; /* Space between the image and text */
+    border-radius: 8px; /* Rounded corners */
+  }
+  
+  .property-address {
+    font-size: 18px;
+    color: #333;
+    text-decoration: none;
+  }
+  
+  .property-address:hover {
+    text-decoration: underline;
+  }
+  .property-item:hover {
+    background-color: #e0f7fa;
+    transition: background-color 0.3s ease;
+  }
+  
+  .property-image:hover {
+    transform: scale(1.50);
+    transition: transform 0.3s ease;
+  }
+  
